@@ -112,7 +112,7 @@ export default function SearchPage() {
           </h2>
           <div className="space-y-2">
             {matchedLocations.map(loc => (
-              <Card key={loc.id} className="flex items-center justify-between">
+              <Card key={loc.id} onClick={() => navigate(`/locations/${loc.id}`)} className="flex items-center justify-between">
                 <span className="font-medium text-white">{loc.name}</span>
                 <span className="text-xs text-slate-400">{loc.type}</span>
               </Card>
