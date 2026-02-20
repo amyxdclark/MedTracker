@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Settings, Database, Upload, Download, Trash2, MapPin, Plus, Package, RotateCcw, Building2, Edit2, Check, X as XIcon } from 'lucide-react';
 import { db } from '@/db/database';
@@ -17,6 +17,13 @@ export default function SettingsPage() {
   // Admin service selector
   const [selectedServiceId, setSelectedServiceId] = useState<number>(currentService?.id ?? 0);
   const serviceId = isAdmin ? selectedServiceId : (currentService?.id ?? 0);
+
+  // Sync selectedServiceId when currentService becomes available
+  useEffect(() => {
+    if (currentService?.id && selectedServiceId === 0) {
+      setSelectedServiceId(currentService.id);
+    }
+  }, [currentService?.id, selectedServiceId]);
 
   // Load all services for admin selector
   const allServices = useLiveQuery(

@@ -108,7 +108,7 @@ export async function seedDemoData() {
     await db.locations.add({ serviceId: lisbonId, parentId: unit, name: 'Interior Cabinet Driver Side Rear', type: 'Cabinet', sealed: false, sealId: '', checkFrequencyHours: 24, isActive: true, createdAt: now() });
     await db.locations.add({ serviceId: lisbonId, parentId: unit, name: 'Front Cab', type: 'Other', sealed: false, sealId: '', checkFrequencyHours: 48, isActive: true, createdAt: now() });
     await db.locations.add({ serviceId: lisbonId, parentId: unit, name: 'Engine Compartment', type: 'Other', sealed: false, sealId: '', checkFrequencyHours: 48, isActive: true, createdAt: now() });
-    return { unit, narcBox, triCountyBox, medBox };
+    return { unit, unitName, narcBox, triCountyBox, medBox };
   };
 
   const u42 = await createLisbonUnitLocations('Unit 42');
@@ -117,16 +117,17 @@ export async function seedDemoData() {
 
   // Lisbon EMS Medication Lots & Inventory for each unit
   for (const u of [u42, u43, u44]) {
-    const lotF = await db.medicationLots.add({ serviceId: lisbonId, catalogId: lisFent, lotNumber: `LOT-F-LIS-${u.unit}`, serialNumber: `SN-LIS-F${u.unit}`, expirationDate: futureExpiry(60), qrCode6: `LF${String(u.unit).padStart(4, '0')}`, createdAt: now() });
-    const lotM = await db.medicationLots.add({ serviceId: lisbonId, catalogId: lisMorph, lotNumber: `LOT-M-LIS-${u.unit}`, serialNumber: `SN-LIS-M${u.unit}`, expirationDate: futureExpiry(120), qrCode6: `LM${String(u.unit).padStart(4, '0')}`, createdAt: now() });
+    const uNum = u.unitName.replace('Unit ', '');
+    const lotF = await db.medicationLots.add({ serviceId: lisbonId, catalogId: lisFent, lotNumber: `LOT-F-LIS-U${uNum}`, serialNumber: `SN-LIS-F-U${uNum}`, expirationDate: futureExpiry(60), qrCode6: `LF${uNum.padStart(4, '0')}`, createdAt: now() });
+    const lotM = await db.medicationLots.add({ serviceId: lisbonId, catalogId: lisMorph, lotNumber: `LOT-M-LIS-U${uNum}`, serialNumber: `SN-LIS-M-U${uNum}`, expirationDate: futureExpiry(120), qrCode6: `LM${uNum.padStart(4, '0')}`, createdAt: now() });
 
     await db.inventoryItems.bulkAdd([
-      { serviceId: lisbonId, catalogId: lisFent, lotId: lotF, locationId: u.narcBox, status: 'InStock', quantity: 2, qrCode6: `LF${String(u.unit).padStart(4, '0')}`, notes: '', isActive: true, lastCheckedAt: recentCheck, createdAt: now() },
-      { serviceId: lisbonId, catalogId: lisMorph, lotId: lotM, locationId: u.narcBox, status: 'InStock', quantity: 2, qrCode6: `LM${String(u.unit).padStart(4, '0')}`, notes: '', isActive: true, lastCheckedAt: recentCheck, createdAt: now() },
-      { serviceId: lisbonId, catalogId: lisEpi, locationId: u.triCountyBox, status: 'InStock', quantity: 4, qrCode6: `LE${String(u.unit).padStart(4, '0')}`, notes: '', isActive: true, lastCheckedAt: recentCheck, createdAt: now() },
-      { serviceId: lisbonId, catalogId: lisNarcan, locationId: u.medBox, status: 'InStock', quantity: 3, qrCode6: `LN${String(u.unit).padStart(4, '0')}`, notes: '', isActive: true, lastCheckedAt: thirtyHoursAgo, createdAt: now() },
-      { serviceId: lisbonId, catalogId: lisAlb, locationId: u.medBox, status: 'InStock', quantity: 8, qrCode6: `LA${String(u.unit).padStart(4, '0')}`, notes: '', isActive: true, lastCheckedAt: recentCheck, createdAt: now() },
-      { serviceId: lisbonId, catalogId: lisAsp, locationId: u.medBox, status: 'InStock', quantity: 10, qrCode6: `LS${String(u.unit).padStart(4, '0')}`, notes: '', isActive: true, lastCheckedAt: recentCheck, createdAt: now() },
+      { serviceId: lisbonId, catalogId: lisFent, lotId: lotF, locationId: u.narcBox, status: 'InStock', quantity: 2, qrCode6: `LF${uNum.padStart(4, '0')}`, notes: '', isActive: true, lastCheckedAt: recentCheck, createdAt: now() },
+      { serviceId: lisbonId, catalogId: lisMorph, lotId: lotM, locationId: u.narcBox, status: 'InStock', quantity: 2, qrCode6: `LM${uNum.padStart(4, '0')}`, notes: '', isActive: true, lastCheckedAt: recentCheck, createdAt: now() },
+      { serviceId: lisbonId, catalogId: lisEpi, locationId: u.triCountyBox, status: 'InStock', quantity: 4, qrCode6: `LE${uNum.padStart(4, '0')}`, notes: '', isActive: true, lastCheckedAt: recentCheck, createdAt: now() },
+      { serviceId: lisbonId, catalogId: lisNarcan, locationId: u.medBox, status: 'InStock', quantity: 3, qrCode6: `LN${uNum.padStart(4, '0')}`, notes: '', isActive: true, lastCheckedAt: thirtyHoursAgo, createdAt: now() },
+      { serviceId: lisbonId, catalogId: lisAlb, locationId: u.medBox, status: 'InStock', quantity: 8, qrCode6: `LA${uNum.padStart(4, '0')}`, notes: '', isActive: true, lastCheckedAt: recentCheck, createdAt: now() },
+      { serviceId: lisbonId, catalogId: lisAsp, locationId: u.medBox, status: 'InStock', quantity: 10, qrCode6: `LS${uNum.padStart(4, '0')}`, notes: '', isActive: true, lastCheckedAt: recentCheck, createdAt: now() },
     ]);
 
     await db.locationExpectedContents.bulkAdd([
