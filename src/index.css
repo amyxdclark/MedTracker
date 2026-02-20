@@ -2,7 +2,7 @@
 
 /* Dark theme base styles */
 body {
-  @apply bg-slate-950 text-slate-100;
+  @apply bg-gray-950 text-slate-100;
 }
 
 /* Custom scrollbar for dark theme */
@@ -12,7 +12,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-slate-900;
+  @apply bg-gray-950;
 }
 
 ::-webkit-scrollbar-thumb {

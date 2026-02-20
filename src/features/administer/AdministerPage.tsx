@@ -28,7 +28,7 @@ export default function AdministerPage() {
 
   // Step 2
   const [patientId, setPatientId] = useState('');
-  const [doseGiven, setDoseGiven] = useState<number>(0);
+  const [doseGiven, setDoseGiven] = useState<number | ''>(0);
   const [route, setRoute] = useState('IV');
   const [adminNotes, setAdminNotes] = useState('');
 
@@ -42,7 +42,7 @@ export default function AdministerPage() {
   const [processing, setProcessing] = useState(false);
   const [adminRecordId, setAdminRecordId] = useState(0);
 
-  const doseWasted = item ? Math.max(0, item.quantity - doseGiven) : 0;
+  const doseWasted = item ? Math.max(0, item.quantity - (doseGiven || 0)) : 0;
   const needsWitness = doseWasted > 0;
   const doseUnit = catalog?.unit ?? 'unit';
 
@@ -127,7 +127,7 @@ export default function AdministerPage() {
         itemId: item.id!,
         administeredBy: userId,
         patientId,
-        doseGiven,
+        doseGiven: Number(doseGiven),
         doseUnit,
         doseWasted,
         route,
@@ -273,7 +273,7 @@ export default function AdministerPage() {
                 max={item?.quantity ?? 0}
                 step="any"
                 value={doseGiven}
-                onChange={e => setDoseGiven(Math.max(0, Number(e.target.value)))}
+                onChange={e => setDoseGiven(e.target.value === '' ? '' : Math.max(0, Number(e.target.value)))}
                 className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -323,7 +323,7 @@ export default function AdministerPage() {
 
       <Button
         onClick={() => setStep(needsWitness ? 2 : 3)}
-        disabled={!patientId.trim() || doseGiven <= 0}
+        disabled={!patientId.trim() || !doseGiven || doseGiven <= 0}
       >
         {needsWitness ? 'Continue to Witness' : 'Continue to Review'}
       </Button>

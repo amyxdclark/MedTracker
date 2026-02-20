@@ -29,7 +29,7 @@ export default function WastePage() {
   const [correctionNotes, setCorrectionNotes] = useState('');
 
   // Waste details
-  const [amountWasted, setAmountWasted] = useState<number>(0);
+  const [amountWasted, setAmountWasted] = useState<number | ''>(0);
   const [wasteMethod, setWasteMethod] = useState(WASTE_METHODS[0]);
   const [wasteNotes, setWasteNotes] = useState('');
 
@@ -132,7 +132,7 @@ export default function WastePage() {
 
         const wasteId = await db.wasteRecords.add({
           administrationId,
-          amountWasted,
+          amountWasted: Number(amountWasted),
           wastedBy: userId,
           wastedAt: now,
           method: wasteMethod,
@@ -270,7 +270,7 @@ export default function WastePage() {
                   max={item?.quantity ?? 0}
                   step="any"
                   value={amountWasted}
-                  onChange={e => setAmountWasted(Math.max(0, Number(e.target.value)))}
+                  onChange={e => setAmountWasted(e.target.value === '' ? '' : Math.max(0, Number(e.target.value)))}
                   className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -302,7 +302,7 @@ export default function WastePage() {
 
       <Button
         onClick={() => setStep(2)}
-        disabled={isCorrection ? !correctionNotes.trim() : amountWasted <= 0}
+        disabled={isCorrection ? !correctionNotes.trim() : !amountWasted || amountWasted <= 0}
       >
         Continue to Witness
       </Button>

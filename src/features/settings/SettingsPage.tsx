@@ -1,18 +1,35 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Settings, Database, Upload, Download, Trash2, MapPin, Plus, Package, RotateCcw } from 'lucide-react';
+import { Settings, Database, Upload, Download, Trash2, MapPin, Plus, Package, RotateCcw, Building2, Edit2, Check, X as XIcon } from 'lucide-react';
 import { db } from '@/db/database';
 import { writeAuditEvent } from '@/db/audit';
 import { seedDemoData } from '@/db/seed';
 import { exportAllData, importAllData, resetDatabase } from '@/utils/exportImport';
 import { useAuth } from '@/auth';
 import { Button, Card, Modal, Badge } from '@/components';
-import type { Location, ItemCatalog } from '@/db/types';
+import type { Location, ItemCatalog, Service } from '@/db/types';
 
 export default function SettingsPage() {
   const { currentUser, currentService, hasPermission } = useAuth();
-  const serviceId = currentService?.id ?? 0;
+  const isAdmin = hasPermission('CompanyAdmin');
   const userId = currentUser?.id ?? 0;
+
+  // Admin service selector
+  const [selectedServiceId, setSelectedServiceId] = useState<number>(currentService?.id ?? 0);
+  const serviceId = isAdmin ? selectedServiceId : (currentService?.id ?? 0);
+
+  // Sync selectedServiceId when currentService becomes available
+  useEffect(() => {
+    if (currentService?.id && selectedServiceId === 0) {
+      setSelectedServiceId(currentService.id);
+    }
+  }, [currentService?.id, selectedServiceId]);
+
+  // Load all services for admin selector
+  const allServices = useLiveQuery(
+    () => isAdmin ? db.services.filter(s => s.isActive).toArray() : Promise.resolve([] as Service[]),
+    [isAdmin],
+  );
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -27,7 +44,7 @@ export default function SettingsPage() {
   const [locParentId, setLocParentId] = useState<string>('');
   const [locSealed, setLocSealed] = useState(false);
   const [locSealId, setLocSealId] = useState('');
-  const [locCheckFreq, setLocCheckFreq] = useState(24);
+  const [locCheckFreq, setLocCheckFreq] = useState<number | ''>(24);
 
   // Catalog form
   const [showCatalogForm, setShowCatalogForm] = useState(false);
@@ -35,7 +52,22 @@ export default function SettingsPage() {
   const [catCategory, setCatCategory] = useState('');
   const [catIsControlled, setCatIsControlled] = useState(false);
   const [catUnit, setCatUnit] = useState('vial');
-  const [catParLevel, setCatParLevel] = useState(4);
+  const [catParLevel, setCatParLevel] = useState<number | ''>(4);
+
+  // Editing state
+  const [editingLocationId, setEditingLocationId] = useState<number | null>(null);
+  const [editLocName, setEditLocName] = useState('');
+  const [editLocType, setEditLocType] = useState('Station');
+  const [editLocSealed, setEditLocSealed] = useState(false);
+  const [editLocSealId, setEditLocSealId] = useState('');
+  const [editLocCheckFreq, setEditLocCheckFreq] = useState<number | ''>(24);
+
+  const [editingCatalogId, setEditingCatalogId] = useState<number | null>(null);
+  const [editCatName, setEditCatName] = useState('');
+  const [editCatCategory, setEditCatCategory] = useState('');
+  const [editCatIsControlled, setEditCatIsControlled] = useState(false);
+  const [editCatUnit, setEditCatUnit] = useState('vial');
+  const [editCatParLevel, setEditCatParLevel] = useState<number | ''>(4);
 
   const locations = useLiveQuery(
     () => db.locations.where('serviceId').equals(serviceId).toArray(),
@@ -126,7 +158,7 @@ export default function SettingsPage() {
       type: locType,
       sealed: locSealed,
       sealId: locSealId,
-      checkFrequencyHours: locCheckFreq,
+      checkFrequencyHours: Number(locCheckFreq) || 24,
       isActive: true,
       createdAt: new Date().toISOString(),
     });
@@ -146,7 +178,7 @@ export default function SettingsPage() {
       category: catCategory.trim(),
       isControlled: catIsControlled,
       unit: catUnit,
-      defaultParLevel: catParLevel,
+      defaultParLevel: Number(catParLevel) || 0,
       isActive: true,
     });
     await writeAuditEvent(serviceId, userId, 'ITEM_CREATED', 'ItemCatalog', id, `Created catalog item: ${catName}`);
@@ -156,11 +188,76 @@ export default function SettingsPage() {
     setShowCatalogForm(false);
   };
 
+  const startEditLocation = (loc: Location) => {
+    setEditingLocationId(loc.id!);
+    setEditLocName(loc.name);
+    setEditLocType(loc.type);
+    setEditLocSealed(loc.sealed);
+    setEditLocSealId(loc.sealId);
+    setEditLocCheckFreq(loc.checkFrequencyHours);
+  };
+
+  const handleSaveLocation = async () => {
+    if (!editingLocationId || !editLocName.trim()) return;
+    await db.locations.update(editingLocationId, {
+      name: editLocName.trim(),
+      type: editLocType,
+      sealed: editLocSealed,
+      sealId: editLocSealId,
+      checkFrequencyHours: Number(editLocCheckFreq) || 24,
+    });
+    await writeAuditEvent(serviceId, userId, 'LOCATION_UPDATED', 'Location', editingLocationId, `Updated location: ${editLocName}`);
+    setEditingLocationId(null);
+  };
+
+  const startEditCatalog = (cat: ItemCatalog) => {
+    setEditingCatalogId(cat.id!);
+    setEditCatName(cat.name);
+    setEditCatCategory(cat.category);
+    setEditCatIsControlled(cat.isControlled);
+    setEditCatUnit(cat.unit);
+    setEditCatParLevel(cat.defaultParLevel);
+  };
+
+  const handleSaveCatalog = async () => {
+    if (!editingCatalogId || !editCatName.trim() || !editCatCategory.trim()) return;
+    await db.itemCatalogs.update(editingCatalogId, {
+      name: editCatName.trim(),
+      category: editCatCategory.trim(),
+      isControlled: editCatIsControlled,
+      unit: editCatUnit,
+      defaultParLevel: Number(editCatParLevel) || 0,
+    });
+    await writeAuditEvent(serviceId, userId, 'ITEM_UPDATED', 'ItemCatalog', editingCatalogId, `Updated catalog item: ${editCatName}`);
+    setEditingCatalogId(null);
+  };
+
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <h1 className="text-2xl font-bold text-white flex items-center gap-2">
         <Settings size={24} /> Settings
       </h1>
+
+      {/* Admin Service Selector */}
+      {isAdmin && (allServices ?? []).length > 0 && (
+        <Card>
+          <div className="flex items-center gap-3">
+            <Building2 size={20} className="text-blue-400 shrink-0" />
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-slate-300 mb-1">Manage settings for service</label>
+              <select
+                value={selectedServiceId}
+                onChange={e => setSelectedServiceId(Number(e.target.value))}
+                className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {(allServices ?? []).map(s => (
+                  <option key={s.id} value={s.id}>{s.name}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </Card>
+      )}
 
       {statusMessage && (
         <div className="bg-blue-500/20 border border-blue-500/30 text-blue-300 rounded-lg px-4 py-3 text-sm">
@@ -269,7 +366,7 @@ export default function SettingsPage() {
                   type="number"
                   min={1}
                   value={locCheckFreq}
-                  onChange={e => setLocCheckFreq(Number(e.target.value))}
+                  onChange={e => setLocCheckFreq(e.target.value === '' ? '' : Number(e.target.value))}
                   className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -305,16 +402,56 @@ export default function SettingsPage() {
             <p className="text-slate-400 text-sm text-center py-2">No locations configured.</p>
           )}
           {(locations ?? []).map(loc => (
-            <div key={loc.id} className="flex items-center justify-between py-2 px-3 rounded-lg bg-slate-700/30 text-sm">
-              <div>
-                <span className="font-medium text-white">{loc.name}</span>
-                <span className="text-slate-400 ml-2">({loc.type})</span>
+            editingLocationId === loc.id ? (
+              <div key={loc.id} className="bg-slate-700/50 rounded-lg p-3 space-y-2">
+                <div className="grid grid-cols-2 gap-2">
+                  <input type="text" value={editLocName} onChange={e => setEditLocName(e.target.value)}
+                    className="rounded-lg border border-slate-600 bg-slate-700 px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  <select value={editLocType} onChange={e => setEditLocType(e.target.value)}
+                    className="rounded-lg border border-slate-600 bg-slate-700 px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    {['Station', 'Unit', 'Cabinet', 'DrugBox', 'StockRoom', 'Other'].map(t => (
+                      <option key={t} value={t}>{t}</option>
+                    ))}
+                  </select>
+                  <input type="number" min={1} value={editLocCheckFreq}
+                    onChange={e => setEditLocCheckFreq(e.target.value === '' ? '' : Number(e.target.value))}
+                    className="rounded-lg border border-slate-600 bg-slate-700 px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Check freq (hrs)" />
+                  <label className="flex items-center gap-2 text-sm text-slate-300">
+                    <input type="checkbox" checked={editLocSealed} onChange={e => setEditLocSealed(e.target.checked)}
+                      className="rounded border-slate-600 bg-slate-700" />
+                    Sealed
+                  </label>
+                  {editLocSealed && (
+                    <input type="text" value={editLocSealId} onChange={e => setEditLocSealId(e.target.value)}
+                      placeholder="Seal ID"
+                      className="rounded-lg border border-slate-600 bg-slate-700 px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  )}
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={handleSaveLocation} className="p-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white" title="Save">
+                    <Check size={14} />
+                  </button>
+                  <button onClick={() => setEditingLocationId(null)} className="p-1.5 rounded-lg bg-slate-600 hover:bg-slate-500 text-white" title="Cancel">
+                    <XIcon size={14} />
+                  </button>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                {loc.sealed && <Badge variant="warning">Sealed</Badge>}
-                <Badge variant="neutral">{loc.checkFrequencyHours}h</Badge>
+            ) : (
+              <div key={loc.id} className="flex items-center justify-between py-2 px-3 rounded-lg bg-slate-700/30 text-sm">
+                <div>
+                  <span className="font-medium text-white">{loc.name}</span>
+                  <span className="text-slate-400 ml-2">({loc.type})</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  {loc.sealed && <Badge variant="warning">Sealed</Badge>}
+                  <Badge variant="neutral">{loc.checkFrequencyHours}h</Badge>
+                  <button onClick={() => startEditLocation(loc)} className="p-1 rounded hover:bg-slate-600 text-slate-400 hover:text-white" title="Edit">
+                    <Edit2 size={14} />
+                  </button>
+                </div>
               </div>
-            </div>
+            )
           ))}
         </div>
       </Card>
@@ -367,7 +504,7 @@ export default function SettingsPage() {
                   type="number"
                   min={0}
                   value={catParLevel}
-                  onChange={e => setCatParLevel(Number(e.target.value))}
+                  onChange={e => setCatParLevel(e.target.value === '' ? '' : Number(e.target.value))}
                   className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -394,17 +531,53 @@ export default function SettingsPage() {
             <p className="text-slate-400 text-sm text-center py-2">No catalog items configured.</p>
           )}
           {(catalogs ?? []).map(cat => (
-            <div key={cat.id} className="flex items-center justify-between py-2 px-3 rounded-lg bg-slate-700/30 text-sm">
-              <div>
-                <span className="font-medium text-white">{cat.name}</span>
-                <span className="text-slate-400 ml-2">({cat.category})</span>
+            editingCatalogId === cat.id ? (
+              <div key={cat.id} className="bg-slate-700/50 rounded-lg p-3 space-y-2">
+                <div className="grid grid-cols-2 gap-2">
+                  <input type="text" value={editCatName} onChange={e => setEditCatName(e.target.value)}
+                    placeholder="Name"
+                    className="rounded-lg border border-slate-600 bg-slate-700 px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  <input type="text" value={editCatCategory} onChange={e => setEditCatCategory(e.target.value)}
+                    placeholder="Category"
+                    className="rounded-lg border border-slate-600 bg-slate-700 px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  <input type="text" value={editCatUnit} onChange={e => setEditCatUnit(e.target.value)}
+                    placeholder="Unit"
+                    className="rounded-lg border border-slate-600 bg-slate-700 px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  <input type="number" min={0} value={editCatParLevel}
+                    onChange={e => setEditCatParLevel(e.target.value === '' ? '' : Number(e.target.value))}
+                    placeholder="Par Level"
+                    className="rounded-lg border border-slate-600 bg-slate-700 px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  <label className="flex items-center gap-2 text-sm text-slate-300 col-span-2">
+                    <input type="checkbox" checked={editCatIsControlled} onChange={e => setEditCatIsControlled(e.target.checked)}
+                      className="rounded border-slate-600 bg-slate-700" />
+                    Controlled Substance
+                  </label>
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={handleSaveCatalog} className="p-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white" title="Save">
+                    <Check size={14} />
+                  </button>
+                  <button onClick={() => setEditingCatalogId(null)} className="p-1.5 rounded-lg bg-slate-600 hover:bg-slate-500 text-white" title="Cancel">
+                    <XIcon size={14} />
+                  </button>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                {cat.isControlled && <Badge variant="danger">Controlled</Badge>}
-                <Badge variant="neutral">{cat.unit}</Badge>
-                <Badge variant="info">Par: {cat.defaultParLevel}</Badge>
+            ) : (
+              <div key={cat.id} className="flex items-center justify-between py-2 px-3 rounded-lg bg-slate-700/30 text-sm">
+                <div>
+                  <span className="font-medium text-white">{cat.name}</span>
+                  <span className="text-slate-400 ml-2">({cat.category})</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  {cat.isControlled && <Badge variant="danger">Controlled</Badge>}
+                  <Badge variant="neutral">{cat.unit}</Badge>
+                  <Badge variant="info">Par: {cat.defaultParLevel}</Badge>
+                  <button onClick={() => startEditCatalog(cat)} className="p-1 rounded hover:bg-slate-600 text-slate-400 hover:text-white" title="Edit">
+                    <Edit2 size={14} />
+                  </button>
+                </div>
               </div>
-            </div>
+            )
           ))}
         </div>
       </Card>
