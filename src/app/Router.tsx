@@ -32,6 +32,12 @@ const WastePage = lazy(() => import('@/features/waste/WastePage'));
 const ReportsPage = lazy(() => import('@/features/reports/ReportsPage'));
 const SettingsPage = lazy(() => import('@/features/settings/SettingsPage'));
 const UsersPage = lazy(() => import('@/features/users/UsersPage'));
+const NewTransferPage = lazy(() => import('@/features/transfers/NewTransferPage'));
+const ExpiredExchangePage = lazy(() => import('@/features/expired/ExpiredExchangePage'));
+const DiscrepanciesPage = lazy(() => import('@/features/discrepancies/DiscrepanciesPage'));
+const BillingPage = lazy(() => import('@/features/billing/BillingPage'));
+const SystemPage = lazy(() => import('@/features/system/SystemPage'));
+const HelpPage = lazy(() => import('@/features/help/HelpPage'));
 
 function SuspenseWrapper({ children }: { children: React.ReactNode }) {
   return (
@@ -74,17 +80,17 @@ const router = createBrowserRouter(
             { path: '/orders', element: <SuspenseWrapper><OrdersPage /></SuspenseWrapper> },
             { path: '/orders/new', element: <SuspenseWrapper><NewOrderPage /></SuspenseWrapper> },
             { path: '/orders/:id', element: <SuspenseWrapper><OrderDetailPage /></SuspenseWrapper> },
-            { path: '/transfers/new', element: <PlaceholderPage title="New Transfer" /> },
+            { path: '/transfers/new', element: <SuspenseWrapper><NewTransferPage /></SuspenseWrapper> },
             { path: '/administer/new', element: <SuspenseWrapper><AdministerPage /></SuspenseWrapper> },
             { path: '/waste/new', element: <SuspenseWrapper><WastePage /></SuspenseWrapper> },
-            { path: '/expired-exchange/new', element: <PlaceholderPage title="Expired Exchange" /> },
-            { path: '/discrepancies', element: <PlaceholderPage title="Discrepancies" /> },
+            { path: '/expired-exchange/new', element: <SuspenseWrapper><ExpiredExchangePage /></SuspenseWrapper> },
+            { path: '/discrepancies', element: <SuspenseWrapper><DiscrepanciesPage /></SuspenseWrapper> },
             { path: '/reports', element: <SuspenseWrapper><ReportsPage /></SuspenseWrapper> },
             { path: '/settings', element: <SuspenseWrapper><SettingsPage /></SuspenseWrapper> },
             { path: '/users', element: <SuspenseWrapper><UsersPage /></SuspenseWrapper> },
-            { path: '/billing', element: <PlaceholderPage title="Billing" /> },
-            { path: '/system', element: <PlaceholderPage title="System Administration" /> },
-            { path: '/help', element: <PlaceholderPage title="Help" /> },
+            { path: '/billing', element: <SuspenseWrapper><BillingPage /></SuspenseWrapper> },
+            { path: '/system', element: <SuspenseWrapper><SystemPage /></SuspenseWrapper> },
+            { path: '/help', element: <SuspenseWrapper><HelpPage /></SuspenseWrapper> },
             { path: '*', element: <Navigate to="/home" replace /> },
           ],
         },
