@@ -6,10 +6,10 @@ interface BadgeProps {
 }
 
 const badgeStyles = {
-  ok: 'bg-emerald-500/20 text-emerald-400',
-  warning: 'bg-amber-500/20 text-amber-400',
-  danger: 'bg-red-500/20 text-red-400',
-  info: 'bg-blue-500/20 text-blue-400',
+  ok: 'bg-emerald-500/25 text-emerald-300',
+  warning: 'bg-amber-500/25 text-amber-300',
+  danger: 'bg-red-500/25 text-red-300',
+  info: 'bg-blue-500/25 text-blue-300',
   neutral: 'bg-slate-600/30 text-slate-400',
 };
 

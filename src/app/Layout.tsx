@@ -75,7 +75,7 @@ export function Layout() {
   };
 
   return (
-    <div className="flex h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <div className="flex h-screen bg-gradient-to-b from-blue-950 via-gray-950 to-black">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-30 bg-black/60 lg:hidden" onClick={() => setSidebarOpen(false)} />
@@ -83,11 +83,11 @@ export function Layout() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-40 w-64 bg-slate-900 border-r border-slate-700 transform transition-transform lg:translate-x-0 ${
+        className={`fixed lg:static inset-y-0 left-0 z-40 w-64 bg-gray-950 border-r border-slate-800 transform transition-transform lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex items-center gap-2 px-4 h-16 border-b border-slate-700">
+        <div className="flex items-center gap-2 px-4 h-16 border-b border-slate-800">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
             M+
           </div>
@@ -124,7 +124,7 @@ export function Layout() {
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
-        <header className="h-16 bg-slate-900/80 backdrop-blur border-b border-slate-700 flex items-center px-4 gap-3 shrink-0">
+        <header className="h-16 bg-gray-950/80 backdrop-blur border-b border-slate-800 flex items-center px-4 gap-3 shrink-0">
           <button
             className="lg:hidden p-1.5 rounded-lg hover:bg-slate-800 text-slate-400"
             onClick={() => setSidebarOpen(true)}
@@ -143,7 +143,7 @@ export function Layout() {
               {memberships.length > 1 && <ChevronDown size={14} />}
             </button>
             {serviceSwitcherOpen && memberships.length > 1 && (
-              <div className="absolute top-full left-0 mt-1 bg-slate-800 border border-slate-700 rounded-lg shadow-lg py-1 min-w-[200px] z-50">
+              <div className="absolute top-full left-0 mt-1 bg-gray-900 border border-slate-700 rounded-lg shadow-lg py-1 min-w-[200px] z-50">
                 {memberships.map(m => {
                   const svc = serviceMap.get(m.serviceId);
                   return (
@@ -182,7 +182,7 @@ export function Layout() {
               <ChevronDown size={14} className="text-slate-400" />
             </button>
             {userMenuOpen && (
-              <div className="absolute top-full right-0 mt-1 bg-slate-800 border border-slate-700 rounded-lg shadow-lg py-1 min-w-[180px] z-50">
+              <div className="absolute top-full right-0 mt-1 bg-gray-900 border border-slate-700 rounded-lg shadow-lg py-1 min-w-[180px] z-50">
                 <div className="px-4 py-2 border-b border-slate-700">
                   <p className="text-sm font-medium text-white">{currentUser?.firstName} {currentUser?.lastName}</p>
                   <p className="text-xs text-slate-400">{currentRole}</p>
