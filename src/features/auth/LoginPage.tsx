@@ -51,36 +51,36 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-4">
       <div className="w-full max-w-sm">
         <div className="flex items-center justify-center gap-2 mb-8">
           <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">M+</div>
-          <span className="text-2xl font-bold text-slate-900">MedTracker</span>
+          <span className="text-2xl font-bold text-white">MedTracker</span>
         </div>
-        <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-slate-200 p-6 space-y-4">
-          <h1 className="text-lg font-semibold text-slate-900">Sign In</h1>
-          {error && <p className="text-sm text-red-600">{error}</p>}
-          {seeded && <p className="text-sm text-green-600">Demo data loaded! Credentials pre-filled.</p>}
+        <form onSubmit={handleSubmit} className="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 p-6 space-y-4">
+          <h1 className="text-lg font-semibold text-white">Sign In</h1>
+          {error && <p className="text-sm text-red-400">{error}</p>}
+          {seeded && <p className="text-sm text-emerald-400">Demo data loaded! Credentials pre-filled.</p>}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">Email</label>
+            <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-1">Email</label>
             <input
               id="email"
               type="email"
               required
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-1">Password</label>
             <input
               id="password"
               type="password"
               required
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <button
@@ -95,14 +95,14 @@ export default function LoginPage() {
           <button
             onClick={handleSeed}
             disabled={seeding}
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm text-slate-600 hover:text-blue-600 hover:bg-white rounded-lg transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm text-slate-400 hover:text-blue-400 hover:bg-slate-700 rounded-lg transition-colors"
           >
             <Database size={16} />
             {seeding ? 'Loading…' : 'Load Demo Data'}
           </button>
         </div>
         {seeded && (
-          <div className="mt-3 bg-blue-50 rounded-lg p-3 text-xs text-blue-700 space-y-1">
+          <div className="mt-3 bg-blue-500/20 border border-blue-500/30 rounded-lg p-3 text-xs text-blue-300 space-y-1">
             <p className="font-semibold">Demo accounts:</p>
             <p>demo@medtracker.app / demo1234 (Paramedic + Supervisor)</p>
             <p>admin@medtracker.app / admin1234 (System Admin)</p>

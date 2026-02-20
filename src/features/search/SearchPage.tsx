@@ -72,7 +72,7 @@ export default function SearchPage() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900">Search</h1>
+      <h1 className="text-2xl font-bold text-white">Search</h1>
 
       <div className="relative">
         <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
@@ -81,23 +81,23 @@ export default function SearchPage() {
           placeholder="Search items, locations, orders…"
           value={query}
           onChange={e => setQuery(e.target.value)}
-          className="w-full pl-10 pr-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+          className="w-full pl-10 pr-3 py-2 rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
         />
       </div>
 
       {q && !hasResults && (
-        <p className="text-slate-500 text-sm">No results found for &ldquo;{query}&rdquo;.</p>
+        <p className="text-slate-400 text-sm">No results found for &ldquo;{query}&rdquo;.</p>
       )}
 
       {matchedItems.length > 0 && (
         <section>
-          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1">
+          <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
             <Package className="h-4 w-4" /> Inventory Items
           </h2>
           <div className="space-y-2">
             {matchedItems.map(item => (
               <Card key={item.id} onClick={() => navigate(`/inventory/${item.id}`)} className="flex items-center justify-between">
-                <span className="font-medium text-slate-900">{catalogMap.get(item.catalogId) ?? `#${item.catalogId}`}</span>
+                <span className="font-medium text-white">{catalogMap.get(item.catalogId) ?? `#${item.catalogId}`}</span>
                 <span className="text-xs text-slate-400">Qty {item.quantity} · {item.status}</span>
               </Card>
             ))}
@@ -107,13 +107,13 @@ export default function SearchPage() {
 
       {matchedLocations.length > 0 && (
         <section>
-          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1">
+          <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
             <MapPin className="h-4 w-4" /> Locations
           </h2>
           <div className="space-y-2">
             {matchedLocations.map(loc => (
               <Card key={loc.id} className="flex items-center justify-between">
-                <span className="font-medium text-slate-900">{loc.name}</span>
+                <span className="font-medium text-white">{loc.name}</span>
                 <span className="text-xs text-slate-400">{loc.type}</span>
               </Card>
             ))}
@@ -123,13 +123,13 @@ export default function SearchPage() {
 
       {matchedOrders.length > 0 && (
         <section>
-          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1">
+          <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
             <ShoppingCart className="h-4 w-4" /> Orders
           </h2>
           <div className="space-y-2">
             {matchedOrders.map(order => (
               <Card key={order.id} onClick={() => navigate(`/orders/${order.id}`)} className="flex items-center justify-between">
-                <span className="font-medium text-slate-900">Order #{order.id} — {vendorMap.get(order.vendorId) ?? 'Unknown'}</span>
+                <span className="font-medium text-white">Order #{order.id} — {vendorMap.get(order.vendorId) ?? 'Unknown'}</span>
                 <span className="text-xs text-slate-400">{order.status}</span>
               </Card>
             ))}

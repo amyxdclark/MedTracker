@@ -35,15 +35,15 @@ export default function SelectServicePage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-4">
       <div className="w-full max-w-sm">
         <div className="flex items-center justify-center gap-2 mb-8">
           <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">M+</div>
-          <span className="text-2xl font-bold text-slate-900">MedTracker</span>
+          <span className="text-2xl font-bold text-white">MedTracker</span>
         </div>
-        <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-4">
-          <h1 className="text-lg font-semibold text-slate-900">Select Service</h1>
-          <p className="text-sm text-slate-500">Choose which service to work in.</p>
+        <div className="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 p-6 space-y-4">
+          <h1 className="text-lg font-semibold text-white">Select Service</h1>
+          <p className="text-sm text-slate-400">Choose which service to work in.</p>
           <div className="space-y-2">
             {memberships.map(m => {
               const svc = serviceMap.get(m.serviceId);
@@ -51,10 +51,10 @@ export default function SelectServicePage() {
                 <button
                   key={m.serviceId}
                   onClick={() => handleSelect(m.serviceId)}
-                  className="w-full text-left px-4 py-3 border border-slate-200 rounded-lg hover:bg-blue-50 hover:border-blue-200 transition-colors"
+                  className="w-full text-left px-4 py-3 border border-slate-700 rounded-lg hover:bg-blue-500/20 hover:border-blue-500/30 transition-colors"
                 >
-                  <p className="text-sm font-medium text-slate-900">{svc?.name ?? `Service #${m.serviceId}`}</p>
-                  <p className="text-xs text-slate-500">{m.role}</p>
+                  <p className="text-sm font-medium text-white">{svc?.name ?? `Service #${m.serviceId}`}</p>
+                  <p className="text-xs text-slate-400">{m.role}</p>
                 </button>
               );
             })}

@@ -58,7 +58,7 @@ export default function OrdersPage() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-slate-900">Orders</h1>
+        <h1 className="text-2xl font-bold text-white">Orders</h1>
         <Button icon={<Plus size={18} />} onClick={() => navigate('/orders/new')}>
           Create New Order
         </Button>
@@ -68,7 +68,7 @@ export default function OrdersPage() {
         <select
           value={statusFilter}
           onChange={e => setStatusFilter(e.target.value as OrderStatus | '')}
-          className="rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="rounded-lg border bg-slate-700 border-slate-600 text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">All statuses</option>
           {STATUS_OPTIONS.map(s => (
@@ -78,16 +78,16 @@ export default function OrdersPage() {
       </div>
 
       {filtered.length === 0 ? (
-        <p className="text-slate-500 text-sm">No orders found.</p>
+        <p className="text-slate-400 text-sm">No orders found.</p>
       ) : (
         <div className="space-y-3">
           {filtered.map(order => (
             <Card key={order.id} onClick={() => navigate(`/orders/${order.id}`)} className="flex items-center justify-between gap-4">
               <div className="min-w-0">
-                <p className="font-semibold text-slate-900 truncate">
+                <p className="font-semibold text-white truncate">
                   {vendorMap.get(order.vendorId) ?? 'Unknown Vendor'}
                 </p>
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-slate-400">
                   {formatDate(order.orderDate)} · Created by {userMap.get(order.createdBy) ?? 'Unknown'}
                 </p>
               </div>

@@ -76,7 +76,7 @@ export default function InventoryPage() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900">Inventory</h1>
+      <h1 className="text-2xl font-bold text-white">Inventory</h1>
 
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3">
@@ -87,13 +87,13 @@ export default function InventoryPage() {
             placeholder="Search by item name…"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full pl-10 pr-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+            className="w-full pl-10 pr-3 py-2 rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
           />
         </div>
         <select
           value={statusFilter}
           onChange={e => setStatusFilter(e.target.value as ItemStatus | '')}
-          className="rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="rounded-lg border bg-slate-700 border-slate-600 text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">All statuses</option>
           {STATUS_OPTIONS.map(s => (
@@ -104,7 +104,7 @@ export default function InventoryPage() {
 
       {/* Items list */}
       {filtered.length === 0 ? (
-        <p className="text-slate-500 text-sm">No inventory items found.</p>
+        <p className="text-slate-400 text-sm">No inventory items found.</p>
       ) : (
         <div className="space-y-3">
           {filtered.map(item => {
@@ -113,10 +113,10 @@ export default function InventoryPage() {
             return (
               <Card key={item.id} onClick={() => navigate(`/inventory/${item.id}`)} className="flex items-center justify-between gap-4">
                 <div className="min-w-0">
-                  <p className="font-semibold text-slate-900 truncate">
+                  <p className="font-semibold text-white truncate">
                     {catalogMap.get(item.catalogId) ?? `Item #${item.catalogId}`}
                   </p>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm text-slate-400">
                     {locationMap.get(item.locationId) ?? 'Unknown location'} · Qty {item.quantity}
                   </p>
                 </div>
