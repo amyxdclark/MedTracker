@@ -10,7 +10,7 @@ import { Stepper, Button, Card, Badge } from '@/components';
 
 interface DraftLine {
   catalogId: number;
-  quantity: number;
+  quantity: number | '';
 }
 
 interface ReceivedLine {
@@ -72,11 +72,11 @@ export default function NewOrderPage() {
   const addLine = () => setDraftLines(prev => [...prev, { catalogId: 0, quantity: 1 }]);
   const removeLine = (i: number) => setDraftLines(prev => prev.filter((_, idx) => idx !== i));
 
-  const updateDraftLine = (i: number, field: keyof DraftLine, value: number) => {
+  const updateDraftLine = (i: number, field: keyof DraftLine, value: number | '') => {
     setDraftLines(prev => prev.map((l, idx) => (idx === i ? { ...l, [field]: value } : l)));
   };
 
-  const canCreateOrder = vendorId > 0 && draftLines.every(l => l.catalogId > 0 && l.quantity > 0);
+  const canCreateOrder = vendorId > 0 && draftLines.every(l => l.catalogId > 0 && (Number(l.quantity) || 0) > 0);
 
   const handleCreateOrder = useCallback(async () => {
     setProcessing(true);
@@ -97,7 +97,7 @@ export default function NewOrderPage() {
         await db.orderLines.add({
           orderId: id,
           catalogId: line.catalogId,
-          quantityOrdered: line.quantity,
+          quantityOrdered: Number(line.quantity) || 1,
           quantityReceived: 0,
         });
       }
@@ -108,8 +108,8 @@ export default function NewOrderPage() {
       setReceivedLines(
         draftLines.map(l => ({
           catalogId: l.catalogId,
-          quantityOrdered: l.quantity,
-          quantityReceived: l.quantity,
+          quantityOrdered: Number(l.quantity) || 1,
+          quantityReceived: Number(l.quantity) || 1,
           locationId: defaultLoc,
           lotNumber: '',
           serialNumber: '',
@@ -237,7 +237,7 @@ export default function NewOrderPage() {
                 type="number"
                 min={1}
                 value={line.quantity}
-                onChange={e => updateDraftLine(i, 'quantity', Math.max(1, Number(e.target.value)))}
+                onChange={e => updateDraftLine(i, 'quantity', e.target.value === '' ? '' : Math.max(1, Number(e.target.value)))}
                 className="w-20 rounded-lg border bg-slate-700 border-slate-600 text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               {draftLines.length > 1 && (
@@ -288,7 +288,7 @@ export default function NewOrderPage() {
                   type="number"
                   min={0}
                   value={line.quantityReceived}
-                  onChange={e => updateReceivedLine(i, 'quantityReceived', Math.max(0, Number(e.target.value)))}
+                  onChange={e => updateReceivedLine(i, 'quantityReceived', e.target.value === '' ? '' : Math.max(0, Number(e.target.value)))}
                   className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>

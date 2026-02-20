@@ -27,7 +27,7 @@ export default function SettingsPage() {
   const [locParentId, setLocParentId] = useState<string>('');
   const [locSealed, setLocSealed] = useState(false);
   const [locSealId, setLocSealId] = useState('');
-  const [locCheckFreq, setLocCheckFreq] = useState(24);
+  const [locCheckFreq, setLocCheckFreq] = useState<number | ''>(24);
 
   // Catalog form
   const [showCatalogForm, setShowCatalogForm] = useState(false);
@@ -35,7 +35,7 @@ export default function SettingsPage() {
   const [catCategory, setCatCategory] = useState('');
   const [catIsControlled, setCatIsControlled] = useState(false);
   const [catUnit, setCatUnit] = useState('vial');
-  const [catParLevel, setCatParLevel] = useState(4);
+  const [catParLevel, setCatParLevel] = useState<number | ''>(4);
 
   const locations = useLiveQuery(
     () => db.locations.where('serviceId').equals(serviceId).toArray(),
@@ -126,7 +126,7 @@ export default function SettingsPage() {
       type: locType,
       sealed: locSealed,
       sealId: locSealId,
-      checkFrequencyHours: locCheckFreq,
+      checkFrequencyHours: Number(locCheckFreq) || 24,
       isActive: true,
       createdAt: new Date().toISOString(),
     });
@@ -146,7 +146,7 @@ export default function SettingsPage() {
       category: catCategory.trim(),
       isControlled: catIsControlled,
       unit: catUnit,
-      defaultParLevel: catParLevel,
+      defaultParLevel: Number(catParLevel) || 0,
       isActive: true,
     });
     await writeAuditEvent(serviceId, userId, 'ITEM_CREATED', 'ItemCatalog', id, `Created catalog item: ${catName}`);
@@ -269,7 +269,7 @@ export default function SettingsPage() {
                   type="number"
                   min={1}
                   value={locCheckFreq}
-                  onChange={e => setLocCheckFreq(Number(e.target.value))}
+                  onChange={e => setLocCheckFreq(e.target.value === '' ? '' : Number(e.target.value))}
                   className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -367,7 +367,7 @@ export default function SettingsPage() {
                   type="number"
                   min={0}
                   value={catParLevel}
-                  onChange={e => setCatParLevel(Number(e.target.value))}
+                  onChange={e => setCatParLevel(e.target.value === '' ? '' : Number(e.target.value))}
                   className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
