@@ -18,7 +18,7 @@ export function Card({ children, className = '', onClick }: CardProps) {
 
   return (
     <div
-      className={`bg-white rounded-xl shadow-sm border border-slate-200 p-4 ${onClick ? 'cursor-pointer hover:shadow-md transition-shadow' : ''} ${className}`}
+      className={`bg-slate-800/50 backdrop-blur rounded-xl shadow-sm border border-slate-700/50 p-4 ${onClick ? 'cursor-pointer hover:bg-slate-800/70 hover:shadow-md transition-all' : ''} ${className}`}
       onClick={onClick}
       onKeyDown={handleKeyDown}
       role={onClick ? 'button' : undefined}
