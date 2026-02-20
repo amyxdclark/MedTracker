@@ -53,11 +53,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             .filter((m) => m.isActive)
             .toArray();
           setMemberships(ms);
-          if (ms.length === 1) {
-            const svc = await db.services.get(ms[0].serviceId);
+
+          const storedSvcId = localStorage.getItem('serviceId');
+          const autoMembership = ms.length === 1 ? ms[0] : storedSvcId ? ms.find(m => m.serviceId === Number(storedSvcId)) : undefined;
+          if (autoMembership) {
+            const svc = await db.services.get(autoMembership.serviceId);
             if (svc) {
               setCurrentService(svc);
-              setCurrentRole(ms[0].role);
+              setCurrentRole(autoMembership.role);
             }
           }
         }
@@ -107,6 +110,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       );
     }
     localStorage.removeItem('userId');
+    localStorage.removeItem('serviceId');
     setCurrentUser(null);
     setCurrentService(null);
     setCurrentRole(null);
@@ -119,6 +123,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (!membership) return;
       const svc = await db.services.get(serviceId);
       if (!svc) return;
+      localStorage.setItem('serviceId', String(serviceId));
       setCurrentService(svc);
       setCurrentRole(membership.role);
     },

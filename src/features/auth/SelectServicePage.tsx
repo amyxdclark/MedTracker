@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/auth';
 import { useLiveQuery } from 'dexie-react-hooks';
@@ -5,7 +6,7 @@ import { db } from '@/db';
 import type { Service } from '@/db';
 
 export default function SelectServicePage() {
-  const { memberships, selectService, currentUser } = useAuth();
+  const { memberships, selectService, currentUser, currentService } = useAuth();
   const navigate = useNavigate();
 
   const serviceIds = memberships.map(m => m.serviceId);
@@ -18,6 +19,12 @@ export default function SelectServicePage() {
 
   const serviceMap = new Map(services?.map(s => [s.id!, s]) ?? []);
 
+  useEffect(() => {
+    if (currentService) {
+      navigate('/home', { replace: true });
+    }
+  }, [currentService, navigate]);
+
   if (!currentUser) {
     navigate('/login');
     return null;
@@ -25,7 +32,6 @@ export default function SelectServicePage() {
 
   const handleSelect = async (serviceId: number) => {
     await selectService(serviceId);
-    navigate('/home');
   };
 
   return (
