@@ -86,8 +86,8 @@ export default function ExpiredExchangePage() {
 
   const renderSelectItem = () => (
     <div className="space-y-3">
-      <p className="text-sm text-slate-600">Items expiring within 30 days or already expired.</p>
-      {expiringItems.length === 0 && <p className="text-slate-500 text-sm">No expiring or expired items found.</p>}
+      <p className="text-sm text-slate-400">Items expiring within 30 days or already expired.</p>
+      {expiringItems.length === 0 && <p className="text-slate-400 text-sm">No expiring or expired items found.</p>}
       {expiringItems.map(item => {
         const lot = item.lotId ? lotMap.get(item.lotId) : null;
         const expired = lot ? isExpired(lot.expirationDate) : false;
@@ -99,8 +99,8 @@ export default function ExpiredExchangePage() {
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-slate-900">{catalogMap.get(item.catalogId) ?? 'Unknown'}</p>
-                <p className="text-sm text-slate-500">
+                <p className="font-medium text-white">{catalogMap.get(item.catalogId) ?? 'Unknown'}</p>
+                <p className="text-sm text-slate-400">
                   Lot: {lot?.lotNumber ?? '—'} · Expires: {lot ? formatDate(lot.expirationDate) : '—'}
                 </p>
               </div>
@@ -117,25 +117,25 @@ export default function ExpiredExchangePage() {
     const lot = selectedItem?.lotId ? lotMap.get(selectedItem.lotId) : null;
     return (
       <div className="space-y-4">
-        <Card className="border-amber-300 bg-amber-50">
+        <Card className="border-amber-500/30 bg-amber-500/10">
           <div className="flex items-start gap-2">
-            <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+            <AlertTriangle className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
             <div>
-              <p className="font-semibold text-slate-900">Mark as Expired</p>
-              <p className="text-sm text-slate-600 mt-1">
+              <p className="font-semibold text-white">Mark as Expired</p>
+              <p className="text-sm text-slate-400 mt-1">
                 {catalogMap.get(selectedItem?.catalogId ?? 0)} (Lot: {lot?.lotNumber ?? '—'}) will be marked as Expired.
               </p>
             </div>
           </div>
         </Card>
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">Replacement Notes (optional)</label>
+          <label className="block text-sm font-medium text-slate-300 mb-1">Replacement Notes (optional)</label>
           <textarea
             value={replacementNotes}
             onChange={e => setReplacementNotes(e.target.value)}
             rows={3}
             placeholder="e.g. Replacement item received from vendor, new lot #12345"
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <Button onClick={handleExchange} disabled={processing} variant="danger">
@@ -147,9 +147,9 @@ export default function ExpiredExchangePage() {
 
   const renderComplete = () => (
     <div className="text-center space-y-4 py-8">
-      <CheckCircle className="mx-auto h-16 w-16 text-green-600" />
-      <h2 className="text-xl font-bold text-slate-900">Exchange Recorded</h2>
-      <p className="text-slate-500">
+      <CheckCircle className="mx-auto h-16 w-16 text-emerald-400" />
+      <h2 className="text-xl font-bold text-white">Exchange Recorded</h2>
+      <p className="text-slate-400">
         {catalogMap.get(selectedItem?.catalogId ?? 0)} has been marked as expired.
       </p>
       <div className="flex justify-center gap-3">
@@ -163,7 +163,7 @@ export default function ExpiredExchangePage() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900">Expired Exchange</h1>
+      <h1 className="text-2xl font-bold text-white">Expired Exchange</h1>
       <Stepper steps={STEPS} currentStep={step} />
       {stepRenderers[step]()}
     </div>

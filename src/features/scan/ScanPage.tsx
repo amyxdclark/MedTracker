@@ -29,18 +29,18 @@ export default function ScanPage() {
 
   return (
     <div className="max-w-md mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900">Scan / Look Up</h1>
+      <h1 className="text-2xl font-bold text-white">Scan / Look Up</h1>
 
       <Card className="space-y-4">
         <div className="flex items-center gap-3 text-slate-400">
           <QrCode className="h-8 w-8" />
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-400">
             Enter the 6-character code printed on the item label.
           </p>
         </div>
 
         <div>
-          <label htmlFor="qr-input" className="block text-sm font-medium text-slate-700 mb-1">
+          <label htmlFor="qr-input" className="block text-sm font-medium text-slate-300 mb-1">
             QR Code
           </label>
           <input
@@ -51,7 +51,7 @@ export default function ScanPage() {
             onChange={e => { setCode(e.target.value.toUpperCase()); setError(''); }}
             onKeyDown={e => { if (e.key === 'Enter') handleLookup(); }}
             placeholder="e.g. A1B2C3"
-            className="w-full px-3 py-2 rounded-lg border border-slate-300 text-lg tracking-widest text-center font-mono focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 text-lg tracking-widest text-center font-mono focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
@@ -59,7 +59,7 @@ export default function ScanPage() {
           Look Up
         </Button>
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-red-400">{error}</p>}
       </Card>
 
       <p className="text-xs text-slate-400 text-center">

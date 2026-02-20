@@ -205,11 +205,11 @@ export default function NewOrderPage() {
   const renderCreateOrder = () => (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1">Vendor</label>
+        <label className="block text-sm font-medium text-slate-300 mb-1">Vendor</label>
         <select
           value={vendorId}
           onChange={e => setVendorId(Number(e.target.value))}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value={0}>Select a vendor…</option>
           {vendors?.map(v => (
@@ -219,14 +219,14 @@ export default function NewOrderPage() {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1">Order Lines</label>
+        <label className="block text-sm font-medium text-slate-300 mb-1">Order Lines</label>
         <div className="space-y-2">
           {draftLines.map((line, i) => (
             <div key={i} className="flex gap-2 items-center">
               <select
                 value={line.catalogId}
                 onChange={e => updateDraftLine(i, 'catalogId', Number(e.target.value))}
-                className="flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 rounded-lg border bg-slate-700 border-slate-600 text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value={0}>Select item…</option>
                 {catalogs?.map(c => (
@@ -238,28 +238,28 @@ export default function NewOrderPage() {
                 min={1}
                 value={line.quantity}
                 onChange={e => updateDraftLine(i, 'quantity', Math.max(1, Number(e.target.value)))}
-                className="w-20 rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-20 rounded-lg border bg-slate-700 border-slate-600 text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               {draftLines.length > 1 && (
-                <button onClick={() => removeLine(i)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg">
+                <button onClick={() => removeLine(i)} className="p-2 text-red-400 hover:bg-red-500/20 rounded-lg">
                   <Trash2 size={16} />
                 </button>
               )}
             </div>
           ))}
         </div>
-        <button onClick={addLine} className="mt-2 text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1">
+        <button onClick={addLine} className="mt-2 text-sm text-blue-400 hover:text-blue-300 flex items-center gap-1">
           <Plus size={14} /> Add another line
         </button>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1">Notes</label>
+        <label className="block text-sm font-medium text-slate-300 mb-1">Notes</label>
         <textarea
           value={notes}
           onChange={e => setNotes(e.target.value)}
           rows={3}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
@@ -276,28 +276,28 @@ export default function NewOrderPage() {
         const cat = catalogMap.get(line.catalogId);
         return (
           <Card key={i}>
-            <p className="font-semibold text-slate-900 mb-2">{cat?.name ?? `Item #${line.catalogId}`}</p>
+            <p className="font-semibold text-white mb-2">{cat?.name ?? `Item #${line.catalogId}`}</p>
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div>
-                <label className="block text-slate-500 mb-1">Qty Ordered</label>
+                <label className="block text-slate-400 mb-1">Qty Ordered</label>
                 <p className="font-medium">{line.quantityOrdered}</p>
               </div>
               <div>
-                <label className="block text-slate-500 mb-1">Qty Received</label>
+                <label className="block text-slate-400 mb-1">Qty Received</label>
                 <input
                   type="number"
                   min={0}
                   value={line.quantityReceived}
                   onChange={e => updateReceivedLine(i, 'quantityReceived', Math.max(0, Number(e.target.value)))}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div className="col-span-2">
-                <label className="block text-slate-500 mb-1">Destination Location</label>
+                <label className="block text-slate-400 mb-1">Destination Location</label>
                 <select
                   value={line.locationId}
                   onChange={e => updateReceivedLine(i, 'locationId', Number(e.target.value))}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   {locations?.map(l => (
                     <option key={l.id} value={l.id}>{l.name}</option>
@@ -307,32 +307,32 @@ export default function NewOrderPage() {
               {cat?.isControlled && (
                 <>
                   <div>
-                    <label className="block text-slate-500 mb-1">Lot Number</label>
+                    <label className="block text-slate-400 mb-1">Lot Number</label>
                     <input
                       type="text"
                       value={line.lotNumber}
                       onChange={e => updateReceivedLine(i, 'lotNumber', e.target.value)}
-                      className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="e.g. LOT-2025-001"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-500 mb-1">Serial Number</label>
+                    <label className="block text-slate-400 mb-1">Serial Number</label>
                     <input
                       type="text"
                       value={line.serialNumber}
                       onChange={e => updateReceivedLine(i, 'serialNumber', e.target.value)}
-                      className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="e.g. SN-001"
                     />
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-slate-500 mb-1">Expiration Date</label>
+                    <label className="block text-slate-400 mb-1">Expiration Date</label>
                     <input
                       type="date"
                       value={line.expirationDate}
                       onChange={e => updateReceivedLine(i, 'expirationDate', e.target.value)}
-                      className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                 </>
@@ -358,13 +358,13 @@ export default function NewOrderPage() {
     return (
       <div className="space-y-4">
         <Card>
-          <p className="text-slate-700">
+          <p className="text-slate-300">
             <span className="font-semibold">{totalToCreate}</span> inventory item(s) will be created from{' '}
             <span className="font-semibold">{receivedLines.length}</span> line(s).
           </p>
           <ul className="mt-3 space-y-1 text-sm">
             {receivedLines.map((l, i) => (
-              <li key={i} className="text-slate-600">
+              <li key={i} className="text-slate-400">
                 {catalogMap.get(l.catalogId)?.name ?? `Item #${l.catalogId}`}: {l.quantityReceived} item(s)
                 → {locations?.find(loc => loc.id === l.locationId)?.name ?? 'Unknown'}
               </li>
@@ -384,15 +384,15 @@ export default function NewOrderPage() {
     return (
       <div className="space-y-4">
         <Card>
-          <p className="font-semibold text-green-700 mb-2">
+          <p className="font-semibold text-emerald-400 mb-2">
             ✓ {createdItemCount} inventory item(s) created successfully.
           </p>
           {discrepancies.length > 0 && (
             <div className="mt-3">
-              <p className="font-medium text-amber-700 mb-1">Discrepancies:</p>
+              <p className="font-medium text-amber-400 mb-1">Discrepancies:</p>
               <ul className="text-sm space-y-1">
                 {discrepancies.map((d, i) => (
-                  <li key={i} className="text-amber-600">
+                  <li key={i} className="text-amber-300">
                     {catalogMap.get(d.catalogId)?.name}: ordered {d.quantityOrdered}, received {d.quantityReceived}
                   </li>
                 ))}
@@ -408,9 +408,9 @@ export default function NewOrderPage() {
   // Step 4: Done
   const renderDone = () => (
     <div className="text-center space-y-4 py-8">
-      <CheckCircle className="mx-auto h-16 w-16 text-green-600" />
-      <h2 className="text-xl font-bold text-slate-900">Order Received Successfully!</h2>
-      <p className="text-slate-500">Order #{orderId} has been processed and inventory items have been created.</p>
+      <CheckCircle className="mx-auto h-16 w-16 text-emerald-400" />
+      <h2 className="text-xl font-bold text-white">Order Received Successfully!</h2>
+      <p className="text-slate-400">Order #{orderId} has been processed and inventory items have been created.</p>
       <div className="flex justify-center gap-3">
         <Button onClick={() => navigate(`/orders/${orderId}`)}>View Order</Button>
         <Button variant="secondary" onClick={() => navigate('/orders')}>All Orders</Button>
@@ -422,7 +422,7 @@ export default function NewOrderPage() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900">Receive Order</h1>
+      <h1 className="text-2xl font-bold text-white">Receive Order</h1>
       <Stepper steps={STEPS} currentStep={step} />
       {stepRenderers[step]()}
     </div>

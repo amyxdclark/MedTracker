@@ -36,10 +36,10 @@ export default function InventoryDetailPage() {
   );
 
   if (item === undefined) {
-    return <p className="text-slate-500 p-4">Loading…</p>;
+    return <p className="text-slate-400 p-4">Loading…</p>;
   }
   if (item === null) {
-    return <p className="text-red-600 p-4">Item not found.</p>;
+    return <p className="text-red-400 p-4">Item not found.</p>;
   }
 
   const expStatus = lot ? getExpirationStatus(lot.expirationDate) : undefined;
@@ -56,57 +56,57 @@ export default function InventoryDetailPage() {
       <Card className="space-y-4">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">
+            <h1 className="text-2xl font-bold text-white">
               {catalog?.name ?? `Item #${item.catalogId}`}
             </h1>
-            <p className="text-sm text-slate-500 mt-1">QR Code: {item.qrCode6 || '—'}</p>
+            <p className="text-sm text-slate-400 mt-1">QR Code: {item.qrCode6 || '—'}</p>
           </div>
           <Badge variant={statusVariant(item.status)}>{item.status}</Badge>
         </div>
 
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
-            <span className="text-slate-500">Location</span>
-            <p className="font-medium text-slate-900">{location?.name ?? '—'}</p>
+            <span className="text-slate-400">Location</span>
+            <p className="font-medium text-white">{location?.name ?? '—'}</p>
           </div>
           <div>
-            <span className="text-slate-500">Quantity</span>
-            <p className="font-medium text-slate-900">{item.quantity} {catalog?.unit ?? ''}</p>
+            <span className="text-slate-400">Quantity</span>
+            <p className="font-medium text-white">{item.quantity} {catalog?.unit ?? ''}</p>
           </div>
           <div>
-            <span className="text-slate-500">Category</span>
-            <p className="font-medium text-slate-900">{catalog?.category ?? '—'}</p>
+            <span className="text-slate-400">Category</span>
+            <p className="font-medium text-white">{catalog?.category ?? '—'}</p>
           </div>
           <div>
-            <span className="text-slate-500">Controlled</span>
-            <p className="font-medium text-slate-900">{catalog?.isControlled ? 'Yes' : 'No'}</p>
+            <span className="text-slate-400">Controlled</span>
+            <p className="font-medium text-white">{catalog?.isControlled ? 'Yes' : 'No'}</p>
           </div>
           {lot && (
             <>
               <div>
-                <span className="text-slate-500">Lot Number</span>
-                <p className="font-medium text-slate-900">{lot.lotNumber}</p>
+                <span className="text-slate-400">Lot Number</span>
+                <p className="font-medium text-white">{lot.lotNumber}</p>
               </div>
               <div>
-                <span className="text-slate-500">Expiration Date</span>
-                <p className="font-medium text-slate-900">{new Date(lot.expirationDate).toLocaleDateString()}</p>
+                <span className="text-slate-400">Expiration Date</span>
+                <p className="font-medium text-white">{new Date(lot.expirationDate).toLocaleDateString()}</p>
               </div>
             </>
           )}
           <div>
-            <span className="text-slate-500">Last Checked</span>
-            <p className="font-medium text-slate-900">{new Date(item.lastCheckedAt).toLocaleString()}</p>
+            <span className="text-slate-400">Last Checked</span>
+            <p className="font-medium text-white">{new Date(item.lastCheckedAt).toLocaleString()}</p>
           </div>
           <div>
-            <span className="text-slate-500">Created</span>
-            <p className="font-medium text-slate-900">{new Date(item.createdAt).toLocaleString()}</p>
+            <span className="text-slate-400">Created</span>
+            <p className="font-medium text-white">{new Date(item.createdAt).toLocaleString()}</p>
           </div>
         </div>
 
         {item.notes && (
           <div className="text-sm">
-            <span className="text-slate-500">Notes</span>
-            <p className="text-slate-900">{item.notes}</p>
+            <span className="text-slate-400">Notes</span>
+            <p className="text-white">{item.notes}</p>
           </div>
         )}
 
@@ -127,9 +127,9 @@ export default function InventoryDetailPage() {
 
       {/* Audit trail */}
       <div>
-        <h2 className="text-lg font-semibold text-slate-900 mb-3">Audit Trail</h2>
+        <h2 className="text-lg font-semibold text-white mb-3">Audit Trail</h2>
         {!auditTrail || auditTrail.length === 0 ? (
-          <p className="text-slate-500 text-sm">No audit events recorded for this item.</p>
+          <p className="text-slate-400 text-sm">No audit events recorded for this item.</p>
         ) : (
           <div className="space-y-2">
             {auditTrail.sort((a, b) => b.timestamp.localeCompare(a.timestamp)).map(event => (
@@ -138,7 +138,7 @@ export default function InventoryDetailPage() {
                   <Badge variant="info">{event.eventType}</Badge>
                   <span className="text-xs text-slate-400">{new Date(event.timestamp).toLocaleString()}</span>
                 </div>
-                <p className="text-slate-600 mt-1">{event.details}</p>
+                <p className="text-slate-400 mt-1">{event.details}</p>
               </Card>
             ))}
           </div>

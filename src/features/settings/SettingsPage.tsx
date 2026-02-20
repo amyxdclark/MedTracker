@@ -50,8 +50,8 @@ export default function SettingsPage() {
   if (!hasPermission('Supervisor')) {
     return (
       <div className="max-w-4xl mx-auto text-center py-12">
-        <h1 className="text-2xl font-bold text-slate-900 mb-2">Access Denied</h1>
-        <p className="text-slate-500">You need Supervisor or higher permissions to access Settings.</p>
+        <h1 className="text-2xl font-bold text-white mb-2">Access Denied</h1>
+        <p className="text-slate-400">You need Supervisor or higher permissions to access Settings.</p>
       </div>
     );
   }
@@ -158,19 +158,19 @@ export default function SettingsPage() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+      <h1 className="text-2xl font-bold text-white flex items-center gap-2">
         <Settings size={24} /> Settings
       </h1>
 
       {statusMessage && (
-        <div className="bg-blue-50 border border-blue-200 text-blue-800 rounded-lg px-4 py-3 text-sm">
+        <div className="bg-blue-500/20 border border-blue-500/30 text-blue-300 rounded-lg px-4 py-3 text-sm">
           {statusMessage}
         </div>
       )}
 
       {/* Data Tools */}
       <Card>
-        <h2 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
+        <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
           <Database size={20} /> Data Tools
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -218,7 +218,7 @@ export default function SettingsPage() {
       {/* Location Management */}
       <Card>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
             <MapPin size={20} /> Locations
           </h2>
           <Button size="sm" icon={<Plus size={16} />} onClick={() => setShowLocationForm(!showLocationForm)}>
@@ -227,23 +227,23 @@ export default function SettingsPage() {
         </div>
 
         {showLocationForm && (
-          <div className="bg-slate-50 rounded-lg p-4 mb-4 space-y-3">
+          <div className="bg-slate-700/50 rounded-lg p-4 mb-4 space-y-3">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Name</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Name</label>
                 <input
                   type="text"
                   value={locName}
                   onChange={e => setLocName(e.target.value)}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Type</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Type</label>
                 <select
                   value={locType}
                   onChange={e => setLocType(e.target.value)}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   {['Station', 'Unit', 'Cabinet', 'DrugBox', 'StockRoom', 'Other'].map(t => (
                     <option key={t} value={t}>{t}</option>
@@ -251,11 +251,11 @@ export default function SettingsPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Parent Location</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Parent Location</label>
                 <select
                   value={locParentId}
                   onChange={e => setLocParentId(e.target.value)}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">None (top-level)</option>
                   {(locations ?? []).map(l => (
@@ -264,34 +264,34 @@ export default function SettingsPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Check Frequency (hrs)</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Check Frequency (hrs)</label>
                 <input
                   type="number"
                   min={1}
                   value={locCheckFreq}
                   onChange={e => setLocCheckFreq(Number(e.target.value))}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div className="flex items-center gap-3">
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-sm text-slate-300">
                   <input
                     type="checkbox"
                     checked={locSealed}
                     onChange={e => setLocSealed(e.target.checked)}
-                    className="rounded border-slate-300"
+                    className="rounded border-slate-600 bg-slate-700"
                   />
                   Sealed
                 </label>
               </div>
               {locSealed && (
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Seal ID</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Seal ID</label>
                   <input
                     type="text"
                     value={locSealId}
                     onChange={e => setLocSealId(e.target.value)}
-                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               )}
@@ -302,13 +302,13 @@ export default function SettingsPage() {
 
         <div className="space-y-2">
           {(locations ?? []).length === 0 && (
-            <p className="text-slate-500 text-sm text-center py-2">No locations configured.</p>
+            <p className="text-slate-400 text-sm text-center py-2">No locations configured.</p>
           )}
           {(locations ?? []).map(loc => (
-            <div key={loc.id} className="flex items-center justify-between py-2 px-3 rounded-lg bg-slate-50 text-sm">
+            <div key={loc.id} className="flex items-center justify-between py-2 px-3 rounded-lg bg-slate-700/30 text-sm">
               <div>
-                <span className="font-medium text-slate-900">{loc.name}</span>
-                <span className="text-slate-500 ml-2">({loc.type})</span>
+                <span className="font-medium text-white">{loc.name}</span>
+                <span className="text-slate-400 ml-2">({loc.type})</span>
               </div>
               <div className="flex items-center gap-2">
                 {loc.sealed && <Badge variant="warning">Sealed</Badge>}
@@ -322,7 +322,7 @@ export default function SettingsPage() {
       {/* Item Catalog Management */}
       <Card>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
             <Package size={20} /> Item Catalogs
           </h2>
           <Button size="sm" icon={<Plus size={16} />} onClick={() => setShowCatalogForm(!showCatalogForm)}>
@@ -331,53 +331,53 @@ export default function SettingsPage() {
         </div>
 
         {showCatalogForm && (
-          <div className="bg-slate-50 rounded-lg p-4 mb-4 space-y-3">
+          <div className="bg-slate-700/50 rounded-lg p-4 mb-4 space-y-3">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Name</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Name</label>
                 <input
                   type="text"
                   value={catName}
                   onChange={e => setCatName(e.target.value)}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Category</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Category</label>
                 <input
                   type="text"
                   value={catCategory}
                   onChange={e => setCatCategory(e.target.value)}
                   placeholder="e.g. Controlled, Emergency"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Unit</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Unit</label>
                 <input
                   type="text"
                   value={catUnit}
                   onChange={e => setCatUnit(e.target.value)}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Default Par Level</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Default Par Level</label>
                 <input
                   type="number"
                   min={0}
                   value={catParLevel}
                   onChange={e => setCatParLevel(Number(e.target.value))}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div className="flex items-center gap-3 col-span-2">
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-sm text-slate-300">
                   <input
                     type="checkbox"
                     checked={catIsControlled}
                     onChange={e => setCatIsControlled(e.target.checked)}
-                    className="rounded border-slate-300"
+                    className="rounded border-slate-600 bg-slate-700"
                   />
                   Controlled Substance
                 </label>
@@ -391,13 +391,13 @@ export default function SettingsPage() {
 
         <div className="space-y-2">
           {(catalogs ?? []).length === 0 && (
-            <p className="text-slate-500 text-sm text-center py-2">No catalog items configured.</p>
+            <p className="text-slate-400 text-sm text-center py-2">No catalog items configured.</p>
           )}
           {(catalogs ?? []).map(cat => (
-            <div key={cat.id} className="flex items-center justify-between py-2 px-3 rounded-lg bg-slate-50 text-sm">
+            <div key={cat.id} className="flex items-center justify-between py-2 px-3 rounded-lg bg-slate-700/30 text-sm">
               <div>
-                <span className="font-medium text-slate-900">{cat.name}</span>
-                <span className="text-slate-500 ml-2">({cat.category})</span>
+                <span className="font-medium text-white">{cat.name}</span>
+                <span className="text-slate-400 ml-2">({cat.category})</span>
               </div>
               <div className="flex items-center gap-2">
                 {cat.isControlled && <Badge variant="danger">Controlled</Badge>}
@@ -411,7 +411,7 @@ export default function SettingsPage() {
 
       {/* Reset Confirmation Modal */}
       <Modal open={resetConfirmOpen} onClose={() => setResetConfirmOpen(false)} title="Reset Database">
-        <p className="text-slate-700 mb-4">
+        <p className="text-slate-300 mb-4">
           This will permanently delete <strong>all data</strong> in the database. This action cannot be undone.
         </p>
         <div className="flex gap-3">

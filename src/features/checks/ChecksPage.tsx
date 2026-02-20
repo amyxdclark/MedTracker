@@ -186,7 +186,7 @@ export default function ChecksPage() {
   }
 
   if (!locations || !allItems || !allCatalogs) {
-    return <p className="text-slate-500 p-4">Loading...</p>;
+    return <p className="text-slate-400 p-4">Loading...</p>;
   }
 
   // Sort locations: Overdue first, then DueSoon, then OK
@@ -197,15 +197,15 @@ export default function ChecksPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold text-slate-900 mb-4">Daily Check</h1>
+      <h1 className="text-2xl font-bold text-white mb-4">Daily Check</h1>
       <Stepper steps={STEPS} currentStep={step} />
 
       {/* Step 0: Choose Location */}
       {step === 0 && (
         <div>
-          <p className="text-slate-600 mb-4">Select a location to check:</p>
+          <p className="text-slate-400 mb-4">Select a location to check:</p>
           {sortedLocations.length === 0 ? (
-            <p className="text-slate-500">No locations available.</p>
+            <p className="text-slate-400">No locations available.</p>
           ) : (
             <div className="space-y-2">
               {sortedLocations.map((loc) => {
@@ -238,7 +238,7 @@ export default function ChecksPage() {
       {step === 1 && selectedLocation && (
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <MapPin size={18} className="text-blue-600" />
+            <MapPin size={18} className="text-blue-400" />
             <h2 className="text-lg font-semibold">{selectedLocation.name}</h2>
             <Badge variant="neutral">{selectedLocation.type}</Badge>
           </div>
@@ -247,24 +247,24 @@ export default function ChecksPage() {
             /* Sealed location: verify seal */
             <Card>
               <div className="flex items-center gap-2 mb-4">
-                <Lock size={18} className="text-blue-600" />
-                <h3 className="font-semibold text-slate-900">Verify Seal</h3>
+                <Lock size={18} className="text-blue-400" />
+                <h3 className="font-semibold text-white">Verify Seal</h3>
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-slate-700 mb-1">Seal ID</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Seal ID</label>
                 <input
                   type="text"
                   value={selectedLocation.sealId}
                   readOnly
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-slate-50 text-slate-700"
+                  className="w-full px-3 py-2 rounded-lg border bg-slate-700 border-slate-600 text-slate-300"
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-slate-700 mb-1">Notes (optional)</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Notes (optional)</label>
                 <textarea
                   value={sealNotes}
                   onChange={(e) => setSealNotes(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300"
+                  className="w-full px-3 py-2 rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
                   rows={2}
                   placeholder="Any observations..."
                 />
@@ -286,12 +286,12 @@ export default function ChecksPage() {
           ) : (
             /* Unsealed location: verify each item */
             <div>
-              <p className="text-sm text-slate-600 mb-3">
+              <p className="text-sm text-slate-400 mb-3">
                 Verify each item at this location ({locationItems.length} items):
               </p>
               {locationItems.length === 0 ? (
                 <Card>
-                  <p className="text-slate-500 text-sm">No items at this location.</p>
+                  <p className="text-slate-400 text-sm">No items at this location.</p>
                 </Card>
               ) : (
                 <div className="space-y-2 mb-4">
@@ -305,25 +305,25 @@ export default function ChecksPage() {
                             type="checkbox"
                             checked={ic.verified}
                             onChange={() => toggleItemVerified(ic.itemId)}
-                            className="mt-1 h-5 w-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                            className="mt-1 h-5 w-5 rounded border-slate-600 text-blue-500 focus:ring-blue-500"
                           />
                           <div className="flex-1">
                             <div className="flex items-center gap-2">
                               <span className="font-medium">
                                 {catalog?.name ?? `Item #${ic.itemId}`}
                               </span>
-                              <span className="text-xs text-slate-500">QR: {item?.qrCode6}</span>
-                              <span className="text-xs text-slate-500">Qty: {item?.quantity}</span>
+                              <span className="text-xs text-slate-400">QR: {item?.qrCode6}</span>
+                              <span className="text-xs text-slate-400">Qty: {item?.quantity}</span>
                             </div>
                             <input
                               type="text"
                               value={ic.notes}
                               onChange={(e) => setItemNotes(ic.itemId, e.target.value)}
                               placeholder="Notes (optional)"
-                              className="mt-1 w-full px-2 py-1 text-sm rounded border border-slate-200"
+                              className="mt-1 w-full px-2 py-1 text-sm rounded border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
                             />
                           </div>
-                          {ic.verified && <CheckCircle2 size={20} className="text-green-600 mt-1" />}
+                          {ic.verified && <CheckCircle2 size={20} className="text-emerald-400 mt-1" />}
                         </div>
                       </Card>
                     );
@@ -353,10 +353,10 @@ export default function ChecksPage() {
         <div>
           <Card className="mb-4">
             <div className="flex items-center gap-2 mb-3">
-              <CheckCircle2 size={24} className="text-green-600" />
-              <h2 className="text-lg font-semibold text-green-800">Check Complete</h2>
+              <CheckCircle2 size={24} className="text-emerald-400" />
+              <h2 className="text-lg font-semibold text-emerald-300">Check Complete</h2>
             </div>
-            <div className="text-sm text-slate-600 space-y-1">
+            <div className="text-sm text-slate-400 space-y-1">
               <p><span className="font-medium">Location:</span> {selectedLocation.name}</p>
               <p><span className="font-medium">Type:</span> {wasSealCheck ? 'Seal Verification' : 'Item-by-Item Check'}</p>
               <p><span className="font-medium">Items updated:</span> {checkedCount}</p>
@@ -373,9 +373,9 @@ export default function ChecksPage() {
       {/* Step 3: Done */}
       {step === 3 && (
         <div className="text-center py-8">
-          <CheckCircle2 size={64} className="text-green-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-slate-900 mb-2">All Done!</h2>
-          <p className="text-slate-600 mb-6">The daily check has been recorded successfully.</p>
+          <CheckCircle2 size={64} className="text-emerald-400 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-white mb-2">All Done!</h2>
+          <p className="text-slate-400 mb-6">The daily check has been recorded successfully.</p>
           <div className="flex justify-center gap-3">
             <Link to="/">
               <Button variant="primary" icon={<Home size={18} />}>Go Home</Button>

@@ -52,7 +52,7 @@ function LocationNode({ node, items, depth }: { node: TreeNode; items: Inventory
           {hasChildren ? (
             <button
               onClick={() => setExpanded(!expanded)}
-              className="p-1 rounded hover:bg-slate-100"
+              className="p-1 rounded hover:bg-slate-700"
               aria-label={expanded ? 'Collapse' : 'Expand'}
             >
               {expanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
@@ -61,7 +61,7 @@ function LocationNode({ node, items, depth }: { node: TreeNode; items: Inventory
             <span className="w-7" />
           )}
           <MapPin size={16} className="text-slate-400 shrink-0" />
-          <Link to={`/locations/${loc.id}`} className="font-medium text-blue-600 hover:underline">
+          <Link to={`/locations/${loc.id}`} className="font-medium text-blue-400 hover:underline">
             {loc.name}
           </Link>
           <Badge variant="neutral">{loc.type}</Badge>
@@ -96,16 +96,16 @@ export default function LocationsPage() {
   );
 
   if (!locations || !items) {
-    return <p className="text-slate-500 p-4">Loading...</p>;
+    return <p className="text-slate-400 p-4">Loading...</p>;
   }
 
   const tree = buildTree(locations);
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold text-slate-900 mb-4">Locations</h1>
+      <h1 className="text-2xl font-bold text-white mb-4">Locations</h1>
       {tree.length === 0 ? (
-        <p className="text-slate-500">No locations found for this service.</p>
+        <p className="text-slate-400">No locations found for this service.</p>
       ) : (
         tree.map((node) => <LocationNode key={node.location.id} node={node} items={items} depth={0} />)
       )}

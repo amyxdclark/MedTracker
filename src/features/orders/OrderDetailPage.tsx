@@ -59,7 +59,7 @@ export default function OrderDetailPage() {
   if (!order) {
     return (
       <div className="max-w-4xl mx-auto">
-        <p className="text-slate-500">Order not found.</p>
+        <p className="text-slate-400">Order not found.</p>
       </div>
     );
   }
@@ -71,47 +71,47 @@ export default function OrderDetailPage() {
       </Button>
 
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-slate-900">Order #{order.id}</h1>
+        <h1 className="text-2xl font-bold text-white">Order #{order.id}</h1>
         <Badge variant={statusVariant(order.status)}>{order.status}</Badge>
       </div>
 
       <Card>
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
-            <p className="text-slate-500">Vendor</p>
-            <p className="font-medium text-slate-900">{vendor?.name ?? '—'}</p>
+            <p className="text-slate-400">Vendor</p>
+            <p className="font-medium text-white">{vendor?.name ?? '—'}</p>
           </div>
           <div>
-            <p className="text-slate-500">Order Date</p>
-            <p className="font-medium text-slate-900">{formatDateTime(order.orderDate)}</p>
+            <p className="text-slate-400">Order Date</p>
+            <p className="font-medium text-white">{formatDateTime(order.orderDate)}</p>
           </div>
           <div>
-            <p className="text-slate-500">Created By</p>
-            <p className="font-medium text-slate-900">
+            <p className="text-slate-400">Created By</p>
+            <p className="font-medium text-white">
               {createdByUser ? `${createdByUser.firstName} ${createdByUser.lastName}` : '—'}
             </p>
           </div>
           <div>
-            <p className="text-slate-500">Notes</p>
-            <p className="font-medium text-slate-900">{order.notes || '—'}</p>
+            <p className="text-slate-400">Notes</p>
+            <p className="font-medium text-white">{order.notes || '—'}</p>
           </div>
         </div>
       </Card>
 
       <div>
-        <h2 className="text-lg font-semibold text-slate-900 mb-3">Order Lines</h2>
+        <h2 className="text-lg font-semibold text-white mb-3">Order Lines</h2>
         {!lines || lines.length === 0 ? (
-          <p className="text-slate-500 text-sm">No order lines.</p>
+          <p className="text-slate-400 text-sm">No order lines.</p>
         ) : (
           <div className="space-y-2">
             {lines.map(line => (
               <Card key={line.id} className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium text-slate-900">
+                  <p className="font-medium text-white">
                     {catalogMap.get(line.catalogId) ?? `Catalog #${line.catalogId}`}
                   </p>
                 </div>
-                <div className="text-sm text-slate-600 text-right">
+                <div className="text-sm text-slate-400 text-right">
                   <p>Ordered: {line.quantityOrdered}</p>
                   <p>Received: {line.quantityReceived}</p>
                   {line.quantityReceived !== line.quantityOrdered && line.quantityReceived > 0 && (
@@ -125,18 +125,18 @@ export default function OrderDetailPage() {
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold text-slate-900 mb-3">Audit Trail</h2>
+        <h2 className="text-lg font-semibold text-white mb-3">Audit Trail</h2>
         {!auditEvents || auditEvents.length === 0 ? (
-          <p className="text-slate-500 text-sm">No audit events.</p>
+          <p className="text-slate-400 text-sm">No audit events.</p>
         ) : (
           <div className="space-y-2">
             {[...auditEvents].sort((a, b) => b.timestamp.localeCompare(a.timestamp)).map(event => (
               <Card key={event.id} className="text-sm">
                 <div className="flex items-center justify-between">
                   <Badge variant="info">{event.eventType}</Badge>
-                  <span className="text-slate-500">{formatDateTime(event.timestamp)}</span>
+                  <span className="text-slate-400">{formatDateTime(event.timestamp)}</span>
                 </div>
-                <p className="text-slate-700 mt-1">{event.details}</p>
+                <p className="text-slate-400 mt-1">{event.details}</p>
               </Card>
             ))}
           </div>

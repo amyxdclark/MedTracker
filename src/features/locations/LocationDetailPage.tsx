@@ -62,7 +62,7 @@ export default function LocationDetailPage() {
   );
 
   if (!location) {
-    return <p className="text-slate-500 p-4">Loading...</p>;
+    return <p className="text-slate-400 p-4">Loading...</p>;
   }
 
   const catalogMap = new Map((catalogs ?? []).map((c) => [c.id!, c]));
@@ -78,22 +78,22 @@ export default function LocationDetailPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <Link to="/locations" className="inline-flex items-center gap-1 text-blue-600 hover:underline mb-4 text-sm">
+      <Link to="/locations" className="inline-flex items-center gap-1 text-blue-400 hover:underline mb-4 text-sm">
         <ArrowLeft size={14} /> Back to Locations
       </Link>
 
       <Card className="mb-6">
         <div className="flex items-center gap-3 mb-3">
           <MapPin size={20} className="text-slate-400" />
-          <h1 className="text-2xl font-bold text-slate-900">{location.name}</h1>
+          <h1 className="text-2xl font-bold text-white">{location.name}</h1>
           <Badge variant="neutral">{location.type}</Badge>
           <Badge variant={complianceBadgeVariant(compliance)}>{compliance}</Badge>
         </div>
-        <div className="grid grid-cols-2 gap-4 text-sm text-slate-600">
+        <div className="grid grid-cols-2 gap-4 text-sm text-slate-400">
           <div>
             <span className="font-medium">Parent:</span>{' '}
             {parentLocation ? (
-              <Link to={`/locations/${parentLocation.id}`} className="text-blue-600 hover:underline">
+              <Link to={`/locations/${parentLocation.id}`} className="text-blue-400 hover:underline">
                 {parentLocation.name}
               </Link>
             ) : (
@@ -111,7 +111,7 @@ export default function LocationDetailPage() {
                   <Lock size={10} className="mr-1 inline" />
                   Sealed
                 </Badge>
-                <span className="text-xs text-slate-500">Seal ID: {location.sealId}</span>
+                <span className="text-xs text-slate-400">Seal ID: {location.sealId}</span>
               </>
             ) : (
               'No'
@@ -123,15 +123,15 @@ export default function LocationDetailPage() {
       {/* Expected vs Actual Contents */}
       {expectedContents && expectedContents.length > 0 && (
         <div className="mb-6">
-          <h2 className="text-lg font-semibold text-slate-900 mb-2">Expected Contents</h2>
+          <h2 className="text-lg font-semibold text-white mb-2">Expected Contents</h2>
           <div className="overflow-x-auto">
             <table className="w-full text-sm border-collapse">
               <thead>
-                <tr className="bg-slate-50">
-                  <th className="text-left p-2 border-b font-medium">Item</th>
-                  <th className="text-left p-2 border-b font-medium">Expected</th>
-                  <th className="text-left p-2 border-b font-medium">Actual</th>
-                  <th className="text-left p-2 border-b font-medium">Status</th>
+                <tr className="bg-slate-700/50">
+                  <th className="text-left p-2 border-b border-slate-700 font-medium text-slate-300">Item</th>
+                  <th className="text-left p-2 border-b border-slate-700 font-medium text-slate-300">Expected</th>
+                  <th className="text-left p-2 border-b border-slate-700 font-medium text-slate-300">Actual</th>
+                  <th className="text-left p-2 border-b border-slate-700 font-medium text-slate-300">Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -142,10 +142,10 @@ export default function LocationDetailPage() {
                     .reduce((sum, i) => sum + i.quantity, 0);
                   const match = actualQty >= ec.expectedQuantity;
                   return (
-                    <tr key={ec.id} className="border-b">
-                      <td className="p-2">{catalog?.name ?? `Catalog #${ec.catalogId}`}</td>
-                      <td className="p-2">{ec.expectedQuantity}</td>
-                      <td className="p-2">{actualQty}</td>
+                    <tr key={ec.id} className="border-b border-slate-700">
+                      <td className="p-2 text-slate-300">{catalog?.name ?? `Catalog #${ec.catalogId}`}</td>
+                      <td className="p-2 text-slate-300">{ec.expectedQuantity}</td>
+                      <td className="p-2 text-slate-300">{actualQty}</td>
                       <td className="p-2">
                         <Badge variant={match ? 'ok' : 'danger'}>{match ? 'OK' : 'Short'}</Badge>
                       </td>
@@ -160,11 +160,11 @@ export default function LocationDetailPage() {
 
       {/* Items at this location */}
       <div className="mb-6">
-        <h2 className="text-lg font-semibold text-slate-900 mb-2">
+        <h2 className="text-lg font-semibold text-white mb-2">
           Items ({items?.length ?? 0})
         </h2>
         {!items || items.length === 0 ? (
-          <p className="text-slate-500 text-sm">No items at this location.</p>
+          <p className="text-slate-400 text-sm">No items at this location.</p>
         ) : (
           <div className="space-y-2">
             {items.map((item) => {
@@ -175,8 +175,8 @@ export default function LocationDetailPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <span className="font-medium">{catalog?.name ?? `Item #${item.id}`}</span>
-                      <span className="text-xs text-slate-500 ml-2">QR: {item.qrCode6}</span>
-                      <span className="text-xs text-slate-500 ml-2">Qty: {item.quantity}</span>
+                      <span className="text-xs text-slate-400 ml-2">QR: {item.qrCode6}</span>
+                      <span className="text-xs text-slate-400 ml-2">Qty: {item.quantity}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Badge variant="neutral">{item.status}</Badge>
@@ -193,7 +193,7 @@ export default function LocationDetailPage() {
       {/* Recent Check Sessions */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
-          <h2 className="text-lg font-semibold text-slate-900">Recent Checks</h2>
+          <h2 className="text-lg font-semibold text-white">Recent Checks</h2>
           <Link to={`/checks?locationId=${location.id}`}>
             <Button size="sm" icon={<ClipboardCheck size={16} />}>
               Start Check
@@ -201,7 +201,7 @@ export default function LocationDetailPage() {
           </Link>
         </div>
         {!checkSessions || checkSessions.length === 0 ? (
-          <p className="text-slate-500 text-sm">No check sessions recorded yet.</p>
+          <p className="text-slate-400 text-sm">No check sessions recorded yet.</p>
         ) : (
           <div className="space-y-2">
             {checkSessions.map((session) => (
@@ -213,11 +213,11 @@ export default function LocationDetailPage() {
                       <Badge variant="info" >Seal Verified</Badge>
                     )}
                   </div>
-                  <span className="text-slate-500">
+                  <span className="text-slate-400">
                     {session.completedAt ? `Completed ${formatDateTime(session.completedAt)}` : 'In progress'}
                   </span>
                 </div>
-                {session.notes && <p className="text-xs text-slate-500 mt-1">{session.notes}</p>}
+                {session.notes && <p className="text-xs text-slate-400 mt-1">{session.notes}</p>}
               </Card>
             ))}
           </div>

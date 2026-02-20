@@ -15,7 +15,7 @@ export function HelpButton({ title, content }: HelpButtonProps) {
         <HelpCircle size={18} />
       </button>
       <Modal open={open} onClose={() => setOpen(false)} title={title}>
-        <p className="text-slate-600">{content}</p>
+        <p className="text-slate-400">{content}</p>
       </Modal>
     </>
   );

@@ -174,7 +174,7 @@ export default function WastePage() {
   const renderFindItem = () => (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1">Scan or enter QR Code (6-char)</label>
+        <label className="block text-sm font-medium text-slate-300 mb-1">Scan or enter QR Code (6-char)</label>
         <div className="flex gap-2">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
@@ -184,38 +184,38 @@ export default function WastePage() {
               onChange={e => setQrInput(e.target.value.toUpperCase())}
               maxLength={6}
               placeholder="e.g. FNT001"
-              className="w-full pl-10 pr-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm uppercase"
+              className="w-full pl-10 pr-3 py-2 rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm uppercase"
             />
           </div>
           <Button onClick={handleLookup}>Look Up</Button>
         </div>
-        {lookupError && <p className="text-red-600 text-sm mt-1">{lookupError}</p>}
+        {lookupError && <p className="text-red-400 text-sm mt-1">{lookupError}</p>}
       </div>
 
       {item && catalog && (
         <Card>
-          <h3 className="font-semibold text-slate-900 mb-2">Item Found</h3>
+          <h3 className="font-semibold text-white mb-2">Item Found</h3>
           <div className="grid grid-cols-2 gap-3 text-sm">
             <div>
-              <p className="text-slate-500">Name</p>
-              <p className="font-medium text-slate-900">{catalog.name}</p>
+              <p className="text-slate-400">Name</p>
+              <p className="font-medium text-white">{catalog.name}</p>
             </div>
             <div>
-              <p className="text-slate-500">QR Code</p>
-              <p className="font-medium text-slate-900">{item.qrCode6}</p>
+              <p className="text-slate-400">QR Code</p>
+              <p className="font-medium text-white">{item.qrCode6}</p>
             </div>
             <div>
-              <p className="text-slate-500">Status</p>
+              <p className="text-slate-400">Status</p>
               <Badge variant={item.status === 'InStock' ? 'ok' : 'warning'}>{item.status}</Badge>
             </div>
             <div>
-              <p className="text-slate-500">Quantity</p>
-              <p className="font-medium text-slate-900">{item.quantity} {catalog.unit}</p>
+              <p className="text-slate-400">Quantity</p>
+              <p className="font-medium text-white">{item.quantity} {catalog.unit}</p>
             </div>
             {adminRecord && (
               <div className="col-span-2">
-                <p className="text-slate-500">Last Administration</p>
-                <p className="font-medium text-slate-900">{formatDateTime(adminRecord.administeredAt)}</p>
+                <p className="text-slate-400">Last Administration</p>
+                <p className="font-medium text-white">{formatDateTime(adminRecord.administeredAt)}</p>
               </div>
             )}
           </div>
@@ -235,35 +235,35 @@ export default function WastePage() {
   const renderDetails = () => (
     <div className="space-y-4">
       {isCorrection ? (
-        <Card className="border-amber-300 bg-amber-50">
+        <Card className="border-amber-500/30 bg-amber-500/10">
           <div className="flex items-start gap-2">
-            <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+            <AlertTriangle className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
             <div>
-              <p className="font-semibold text-slate-900">Correction Mode</p>
-              <p className="text-sm text-slate-600 mt-1">
+              <p className="font-semibold text-white">Correction Mode</p>
+              <p className="text-sm text-slate-400 mt-1">
                 This will correct a previous waste or administration logged against {catalog?.name} ({item?.qrCode6}).
                 The item will be reverted to InStock.
               </p>
             </div>
           </div>
           <div className="mt-3">
-            <label className="block text-sm font-medium text-slate-700 mb-1">Reason for Correction</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Reason for Correction</label>
             <textarea
               value={correctionNotes}
               onChange={e => setCorrectionNotes(e.target.value)}
               rows={3}
               placeholder="e.g. Accidentally logged waste against the wrong item"
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
         </Card>
       ) : (
         <Card>
-          <p className="text-sm text-slate-500 mb-3">Wasting: <span className="font-semibold text-slate-900">{catalog?.name}</span></p>
+          <p className="text-sm text-slate-400 mb-3">Wasting: <span className="font-semibold text-white">{catalog?.name}</span></p>
           <div className="space-y-3">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Amount to Waste ({catalog?.unit})</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Amount to Waste ({catalog?.unit})</label>
                 <input
                   type="number"
                   min={0}
@@ -271,15 +271,15 @@ export default function WastePage() {
                   step="any"
                   value={amountWasted}
                   onChange={e => setAmountWasted(Math.max(0, Number(e.target.value)))}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Method</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Method</label>
                 <select
                   value={wasteMethod}
                   onChange={e => setWasteMethod(e.target.value)}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   {WASTE_METHODS.map(m => (
                     <option key={m} value={m}>{m}</option>
@@ -288,12 +288,12 @@ export default function WastePage() {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Notes</label>
+              <label className="block text-sm font-medium text-slate-300 mb-1">Notes</label>
               <textarea
                 value={wasteNotes}
                 onChange={e => setWasteNotes(e.target.value)}
                 rows={2}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
@@ -312,14 +312,14 @@ export default function WastePage() {
   // Step 2: Witness
   const renderWitness = () => (
     <div className="space-y-4">
-      <Card className="border-amber-300 bg-amber-50">
+      <Card className="border-amber-500/30 bg-amber-500/10">
         <div className="flex items-start gap-2">
-          <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+          <AlertTriangle className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold text-slate-900">
+            <p className="font-semibold text-white">
               {isCorrection ? 'Correction requires a witness' : 'Waste requires a witness'}
             </p>
-            <p className="text-sm text-slate-600 mt-1">
+            <p className="text-sm text-slate-400 mt-1">
               Another authorized user must verify this {isCorrection ? 'correction' : 'waste'}.
             </p>
           </div>
@@ -328,27 +328,27 @@ export default function WastePage() {
 
       <div className="space-y-3">
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">Witness Email</label>
+          <label className="block text-sm font-medium text-slate-300 mb-1">Witness Email</label>
           <input
             type="email"
             value={witnessEmail}
             onChange={e => { setWitnessEmail(e.target.value); setWitnessVerified(false); }}
             placeholder="witness@example.com"
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">Witness Password</label>
+          <label className="block text-sm font-medium text-slate-300 mb-1">Witness Password</label>
           <input
             type="password"
             value={witnessPassword}
             onChange={e => { setWitnessPassword(e.target.value); setWitnessVerified(false); }}
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        {witnessError && <p className="text-red-600 text-sm">{witnessError}</p>}
+        {witnessError && <p className="text-red-400 text-sm">{witnessError}</p>}
         {witnessVerified && (
-          <div className="flex items-center gap-2 text-green-700 text-sm">
+          <div className="flex items-center gap-2 text-emerald-400 text-sm">
             <CheckCircle size={16} />
             <span>Witness verified successfully.</span>
           </div>
@@ -370,38 +370,38 @@ export default function WastePage() {
   const renderReview = () => (
     <div className="space-y-4">
       <Card>
-        <h3 className="font-semibold text-slate-900 mb-3">
+        <h3 className="font-semibold text-white mb-3">
           {isCorrection ? 'Correction Summary' : 'Waste Summary'}
         </h3>
         <div className="grid grid-cols-2 gap-3 text-sm">
           <div>
-            <p className="text-slate-500">Medication</p>
-            <p className="font-medium text-slate-900">{catalog?.name}</p>
+            <p className="text-slate-400">Medication</p>
+            <p className="font-medium text-white">{catalog?.name}</p>
           </div>
           <div>
-            <p className="text-slate-500">QR Code</p>
-            <p className="font-medium text-slate-900">{item?.qrCode6}</p>
+            <p className="text-slate-400">QR Code</p>
+            <p className="font-medium text-white">{item?.qrCode6}</p>
           </div>
           {isCorrection ? (
             <div className="col-span-2">
-              <p className="text-slate-500">Correction Reason</p>
-              <p className="font-medium text-slate-900">{correctionNotes}</p>
+              <p className="text-slate-400">Correction Reason</p>
+              <p className="font-medium text-white">{correctionNotes}</p>
             </div>
           ) : (
             <>
               <div>
-                <p className="text-slate-500">Amount Wasted</p>
-                <p className="font-medium text-slate-900">{amountWasted} {catalog?.unit}</p>
+                <p className="text-slate-400">Amount Wasted</p>
+                <p className="font-medium text-white">{amountWasted} {catalog?.unit}</p>
               </div>
               <div>
-                <p className="text-slate-500">Method</p>
-                <p className="font-medium text-slate-900">{wasteMethod}</p>
+                <p className="text-slate-400">Method</p>
+                <p className="font-medium text-white">{wasteMethod}</p>
               </div>
             </>
           )}
           <div className="col-span-2">
-            <p className="text-slate-500">Witness</p>
-            <p className="font-medium text-slate-900">{witnessEmail}</p>
+            <p className="text-slate-400">Witness</p>
+            <p className="font-medium text-white">{witnessEmail}</p>
           </div>
         </div>
       </Card>
@@ -414,11 +414,11 @@ export default function WastePage() {
   // Step 4: Complete
   const renderComplete = () => (
     <div className="text-center space-y-4 py-8">
-      <CheckCircle className="mx-auto h-16 w-16 text-green-600" />
-      <h2 className="text-xl font-bold text-slate-900">
+      <CheckCircle className="mx-auto h-16 w-16 text-emerald-400" />
+      <h2 className="text-xl font-bold text-white">
         {isCorrection ? 'Correction Recorded' : 'Waste Recorded'}
       </h2>
-      <p className="text-slate-500">
+      <p className="text-slate-400">
         {isCorrection
           ? `Correction applied to ${catalog?.name} (${item?.qrCode6}). Item reverted to InStock.`
           : `${amountWasted} ${catalog?.unit} of ${catalog?.name} has been wasted and witnessed.`
@@ -435,7 +435,7 @@ export default function WastePage() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900">
+      <h1 className="text-2xl font-bold text-white">
         Waste / Correction
       </h1>
       <Stepper steps={STEPS} currentStep={step} />

@@ -114,22 +114,22 @@ export default function DiscrepanciesPage() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+        <h1 className="text-2xl font-bold text-white flex items-center gap-2">
           <AlertTriangle size={24} /> Discrepancies
         </h1>
         <Button size="sm" icon={<Plus size={16} />} onClick={() => setShowNewForm(!showNewForm)}>New</Button>
       </div>
 
       {showNewForm && (
-        <Card className="border-blue-300 bg-blue-50">
-          <h2 className="font-semibold text-slate-900 mb-3">Report Discrepancy</h2>
+        <Card className="border-blue-500/30 bg-blue-500/20">
+          <h2 className="font-semibold text-white mb-3">Report Discrepancy</h2>
           <div className="space-y-3">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Item</label>
+              <label className="block text-sm font-medium text-slate-300 mb-1">Item</label>
               <select
                 value={selectedItemId}
                 onChange={e => setSelectedItemId(e.target.value)}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Select an item…</option>
                 {(items ?? []).map(item => (
@@ -140,13 +140,13 @@ export default function DiscrepanciesPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Description</label>
+              <label className="block text-sm font-medium text-slate-300 mb-1">Description</label>
               <textarea
                 value={description}
                 onChange={e => setDescription(e.target.value)}
                 rows={3}
                 placeholder="Describe the discrepancy…"
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <Button onClick={handleCreate} disabled={processing || !selectedItemId || !description.trim()}>
@@ -158,15 +158,15 @@ export default function DiscrepanciesPage() {
 
       {/* Open cases */}
       <div>
-        <h2 className="text-lg font-semibold text-slate-900 mb-3">Open Cases ({openCases.length})</h2>
-        {openCases.length === 0 && <p className="text-slate-500 text-sm">No open discrepancies.</p>}
+        <h2 className="text-lg font-semibold text-white mb-3">Open Cases ({openCases.length})</h2>
+        {openCases.length === 0 && <p className="text-slate-400 text-sm">No open discrepancies.</p>}
         <div className="space-y-3">
           {openCases.map(c => (
             <Card key={c.id}>
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="font-medium text-slate-900">{catalogMap.get(itemCatalogId.get(c.itemId) ?? 0) ?? `Item #${c.itemId}`}</p>
-                  <p className="text-sm text-slate-600 mt-1">{c.description}</p>
+                  <p className="font-medium text-white">{catalogMap.get(itemCatalogId.get(c.itemId) ?? 0) ?? `Item #${c.itemId}`}</p>
+                  <p className="text-sm text-slate-400 mt-1">{c.description}</p>
                   <p className="text-xs text-slate-400 mt-1">Opened {formatDateTime(c.openedAt)}</p>
                 </div>
                 <Badge variant={statusVariant(c.status)}>{c.status}</Badge>
@@ -178,7 +178,7 @@ export default function DiscrepanciesPage() {
                     onChange={e => setResolution(e.target.value)}
                     rows={2}
                     placeholder="Resolution notes…"
-                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <div className="flex gap-2">
                     <Button size="sm" variant="success" onClick={() => handleResolve(c)} disabled={processing || !resolution.trim()}>
@@ -202,15 +202,15 @@ export default function DiscrepanciesPage() {
       {/* Resolved cases */}
       {resolvedCases.length > 0 && (
         <div>
-          <h2 className="text-lg font-semibold text-slate-900 mb-3">Resolved ({resolvedCases.length})</h2>
+          <h2 className="text-lg font-semibold text-white mb-3">Resolved ({resolvedCases.length})</h2>
           <div className="space-y-3">
             {resolvedCases.map(c => (
               <Card key={c.id} className="opacity-75">
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="font-medium text-slate-900">{catalogMap.get(itemCatalogId.get(c.itemId) ?? 0) ?? `Item #${c.itemId}`}</p>
-                    <p className="text-sm text-slate-600 mt-1">{c.description}</p>
-                    <p className="text-sm text-green-700 mt-1">Resolution: {c.resolution}</p>
+                    <p className="font-medium text-white">{catalogMap.get(itemCatalogId.get(c.itemId) ?? 0) ?? `Item #${c.itemId}`}</p>
+                    <p className="text-sm text-slate-400 mt-1">{c.description}</p>
+                    <p className="text-sm text-emerald-400 mt-1">Resolution: {c.resolution}</p>
                     <p className="text-xs text-slate-400 mt-1">Resolved {c.resolvedAt ? formatDateTime(c.resolvedAt) : '—'}</p>
                   </div>
                   <Badge variant="ok">Resolved</Badge>

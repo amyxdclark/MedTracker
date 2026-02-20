@@ -95,33 +95,33 @@ export default function ReportsPage() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900">Reports</h1>
+      <h1 className="text-2xl font-bold text-white">Reports</h1>
 
       {/* Compliance Summary */}
       <Card>
-        <h2 className="text-lg font-semibold text-slate-900 mb-3 flex items-center gap-2">
+        <h2 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
           <FileText size={20} /> Compliance Summary
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
-          <div className="bg-blue-50 rounded-lg p-3">
-            <p className="text-slate-500">Total Events</p>
-            <p className="text-2xl font-bold text-blue-700">{summary.total}</p>
+          <div className="bg-blue-500/20 rounded-lg p-3">
+            <p className="text-slate-400">Total Events</p>
+            <p className="text-2xl font-bold text-blue-400">{summary.total}</p>
           </div>
-          <div className="bg-green-50 rounded-lg p-3">
-            <p className="text-slate-500">Checks</p>
-            <p className="text-2xl font-bold text-green-700">
+          <div className="bg-emerald-500/20 rounded-lg p-3">
+            <p className="text-slate-400">Checks</p>
+            <p className="text-2xl font-bold text-emerald-400">
               {(summary.byType['CHECK_SESSION_COMPLETED'] ?? 0)}
             </p>
           </div>
-          <div className="bg-amber-50 rounded-lg p-3">
-            <p className="text-slate-500">Witnessed Waste</p>
-            <p className="text-2xl font-bold text-amber-700">
+          <div className="bg-amber-500/10 rounded-lg p-3">
+            <p className="text-slate-400">Witnessed Waste</p>
+            <p className="text-2xl font-bold text-amber-400">
               {(summary.byType['WASTE_WITNESSED'] ?? 0)}
             </p>
           </div>
-          <div className="bg-red-50 rounded-lg p-3">
-            <p className="text-slate-500">Corrections</p>
-            <p className="text-2xl font-bold text-red-700">
+          <div className="bg-red-500/20 rounded-lg p-3">
+            <p className="text-slate-400">Corrections</p>
+            <p className="text-2xl font-bold text-red-400">
               {(summary.byType['CORRECTION_MADE'] ?? 0)}
             </p>
           </div>
@@ -130,16 +130,16 @@ export default function ReportsPage() {
 
       {/* Filters */}
       <Card>
-        <h2 className="text-lg font-semibold text-slate-900 mb-3 flex items-center gap-2">
+        <h2 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
           <Filter size={20} /> Audit Event Filters
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Event Type</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Event Type</label>
             <select
               value={eventTypeFilter}
               onChange={e => setEventTypeFilter(e.target.value)}
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">All Events</option>
               {EVENT_TYPE_OPTIONS.map(t => (
@@ -148,11 +148,11 @@ export default function ReportsPage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Entity Type</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Entity Type</label>
             <select
               value={entityTypeFilter}
               onChange={e => setEntityTypeFilter(e.target.value)}
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">All Entities</option>
               {ENTITY_TYPES.map(t => (
@@ -161,25 +161,25 @@ export default function ReportsPage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1 flex items-center gap-1">
+            <label className="block text-sm font-medium text-slate-300 mb-1 flex items-center gap-1">
               <Calendar size={14} /> From
             </label>
             <input
               type="date"
               value={dateFrom}
               onChange={e => setDateFrom(e.target.value)}
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1 flex items-center gap-1">
+            <label className="block text-sm font-medium text-slate-300 mb-1 flex items-center gap-1">
               <Calendar size={14} /> To
             </label>
             <input
               type="date"
               value={dateTo}
               onChange={e => setDateTo(e.target.value)}
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
         </div>
@@ -193,14 +193,14 @@ export default function ReportsPage() {
         <Button size="sm" variant="secondary" icon={<Download size={16} />} onClick={handleExportJSON}>
           Export JSON
         </Button>
-        <span className="text-sm text-slate-500 self-center">{filteredEvents.length} events</span>
+        <span className="text-sm text-slate-400 self-center">{filteredEvents.length} events</span>
       </div>
 
       {/* Event List */}
       <div className="space-y-2">
         {filteredEvents.length === 0 && (
           <Card>
-            <p className="text-slate-500 text-center py-4">No audit events match the current filters.</p>
+            <p className="text-slate-400 text-center py-4">No audit events match the current filters.</p>
           </Card>
         )}
         {filteredEvents.slice(0, 100).map(event => (
@@ -211,9 +211,9 @@ export default function ReportsPage() {
                   <Badge variant={eventBadgeVariant(event.eventType)}>{event.eventType}</Badge>
                   <Badge variant="neutral">{event.entityType} #{event.entityId}</Badge>
                 </div>
-                <p className="text-sm text-slate-700 mt-1 truncate">{event.details}</p>
+                <p className="text-sm text-slate-300 mt-1 truncate">{event.details}</p>
               </div>
-              <div className="text-right text-xs text-slate-500 whitespace-nowrap shrink-0">
+              <div className="text-right text-xs text-slate-400 whitespace-nowrap shrink-0">
                 <p>{formatDateTime(event.timestamp)}</p>
                 <p>User #{event.userId}</p>
               </div>
@@ -221,7 +221,7 @@ export default function ReportsPage() {
           </Card>
         ))}
         {filteredEvents.length > 100 && (
-          <p className="text-sm text-slate-500 text-center">
+          <p className="text-sm text-slate-400 text-center">
             Showing first 100 of {filteredEvents.length} events. Use filters or export to see all.
           </p>
         )}
