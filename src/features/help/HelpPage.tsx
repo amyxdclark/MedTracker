@@ -47,10 +47,10 @@ export default function HelpPage() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+      <h1 className="text-2xl font-bold text-white flex items-center gap-2">
         <HelpCircle size={24} /> Help Center
       </h1>
-      <p className="text-slate-500">Browse common topics below to learn how to use MedTracker.</p>
+      <p className="text-slate-400">Browse common topics below to learn how to use MedTracker.</p>
 
       <div className="space-y-3">
         {TOPICS.map((topic, i) => (
@@ -61,7 +61,7 @@ export default function HelpPage() {
               onClick={() => toggle(i)}
               aria-expanded={expandedIndex === i}
             >
-              <span className="font-semibold text-slate-900">{topic.title}</span>
+              <span className="font-semibold text-white">{topic.title}</span>
               {expandedIndex === i ? (
                 <ChevronDown size={18} className="text-slate-400 shrink-0" />
               ) : (
@@ -69,7 +69,7 @@ export default function HelpPage() {
               )}
             </button>
             {expandedIndex === i && (
-              <p className="mt-3 text-sm text-slate-600 leading-relaxed">{topic.content}</p>
+              <p className="mt-3 text-sm text-slate-400 leading-relaxed">{topic.content}</p>
             )}
           </Card>
         ))}

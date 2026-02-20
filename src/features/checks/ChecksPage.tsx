@@ -238,7 +238,7 @@ export default function ChecksPage() {
       {step === 1 && selectedLocation && (
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <MapPin size={18} className="text-blue-600" />
+            <MapPin size={18} className="text-blue-400" />
             <h2 className="text-lg font-semibold">{selectedLocation.name}</h2>
             <Badge variant="neutral">{selectedLocation.type}</Badge>
           </div>
@@ -247,7 +247,7 @@ export default function ChecksPage() {
             /* Sealed location: verify seal */
             <Card>
               <div className="flex items-center gap-2 mb-4">
-                <Lock size={18} className="text-blue-600" />
+                <Lock size={18} className="text-blue-400" />
                 <h3 className="font-semibold text-white">Verify Seal</h3>
               </div>
               <div className="mb-4">
@@ -305,7 +305,7 @@ export default function ChecksPage() {
                             type="checkbox"
                             checked={ic.verified}
                             onChange={() => toggleItemVerified(ic.itemId)}
-                            className="mt-1 h-5 w-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                            className="mt-1 h-5 w-5 rounded border-slate-600 text-blue-500 focus:ring-blue-500"
                           />
                           <div className="flex-1">
                             <div className="flex items-center gap-2">
