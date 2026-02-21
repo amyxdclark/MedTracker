@@ -238,7 +238,8 @@ export default function AdministerPage() {
               </>
             )}
           </div>
-          <div className="mt-4">
+          <div className="mt-4 flex gap-3">
+            <Button variant="secondary" onClick={() => navigate(-1)}>Cancel</Button>
             <Button onClick={() => setStep(1)}>Continue</Button>
           </div>
         </Card>
