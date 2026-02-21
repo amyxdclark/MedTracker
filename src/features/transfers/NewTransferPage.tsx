@@ -102,6 +102,7 @@ export default function NewTransferPage() {
         </Card>
       ))}
       <Button onClick={() => setStep(1)} disabled={!selectedItemId}>Continue</Button>
+      <Button variant="secondary" onClick={() => navigate(-1)} className="mt-2">Cancel</Button>
     </div>
   );
 
@@ -129,7 +130,10 @@ export default function NewTransferPage() {
           className="w-full rounded-lg border bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
-      <Button onClick={() => setStep(2)} disabled={!toLocationId}>Continue to Review</Button>
+      <div className="flex gap-3">
+        <Button variant="secondary" onClick={() => setStep(0)}>Back</Button>
+        <Button onClick={() => setStep(2)} disabled={!toLocationId}>Continue to Review</Button>
+      </div>
     </div>
   );
 
@@ -145,9 +149,12 @@ export default function NewTransferPage() {
           {notes && <div className="col-span-2"><p className="text-slate-400">Notes</p><p className="font-medium text-white">{notes}</p></div>}
         </div>
       </Card>
-      <Button onClick={handleConfirm} disabled={processing} variant="success">
-        {processing ? 'Processing…' : 'Confirm Transfer'}
-      </Button>
+      <div className="flex gap-3">
+        <Button variant="secondary" onClick={() => setStep(1)}>Back</Button>
+        <Button onClick={handleConfirm} disabled={processing} variant="success">
+          {processing ? 'Processing…' : 'Confirm Transfer'}
+        </Button>
+      </div>
     </div>
   );
 
