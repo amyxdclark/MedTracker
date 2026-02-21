@@ -39,6 +39,9 @@ const DiscrepanciesPage = lazy(() => import('@/features/discrepancies/Discrepanc
 const BillingPage = lazy(() => import('@/features/billing/BillingPage'));
 const SystemPage = lazy(() => import('@/features/system/SystemPage'));
 const HelpPage = lazy(() => import('@/features/help/HelpPage'));
+const IncidentsPage = lazy(() => import('@/features/incidents/IncidentsPage'));
+const NewIncidentPage = lazy(() => import('@/features/incidents/NewIncidentPage'));
+const IncidentDetailPage = lazy(() => import('@/features/incidents/IncidentDetailPage'));
 
 function SuspenseWrapper({ children }: { children: React.ReactNode }) {
   return (
@@ -96,6 +99,9 @@ const router = createBrowserRouter(
             { path: '/billing', element: <SuspenseWrapper><BillingPage /></SuspenseWrapper> },
             { path: '/system', element: <SuspenseWrapper><SystemPage /></SuspenseWrapper> },
             { path: '/help', element: <SuspenseWrapper><HelpPage /></SuspenseWrapper> },
+            { path: '/incidents', element: <SuspenseWrapper><IncidentsPage /></SuspenseWrapper> },
+            { path: '/incidents/new', element: <SuspenseWrapper><NewIncidentPage /></SuspenseWrapper> },
+            { path: '/incidents/:id', element: <SuspenseWrapper><IncidentDetailPage /></SuspenseWrapper> },
             { path: '*', element: <Navigate to="/home" replace /> },
           ],
         },

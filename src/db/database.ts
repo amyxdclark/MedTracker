@@ -4,7 +4,7 @@ import type {
   ItemCatalog, MedicationLot, InventoryItem, Location, LocationExpectedContent,
   Order, OrderLine, Transfer, CheckSession, CheckLine,
   AdministrationRecord, WasteRecord, WitnessSignature,
-  DiscrepancyCase, AuditEvent, Settings,
+  DiscrepancyCase, AuditEvent, Settings, Incident, IncidentItem,
 } from './types';
 
 export class MedTrackerDB extends Dexie {
@@ -29,6 +29,8 @@ export class MedTrackerDB extends Dexie {
   discrepancyCases!: Table<DiscrepancyCase, number>;
   auditEvents!: Table<AuditEvent, number>;
   settings!: Table<Settings, number>;
+  incidents!: Table<Incident, number>;
+  incidentItems!: Table<IncidentItem, number>;
 
   constructor() {
     super('MedTrackerDB');
@@ -57,6 +59,10 @@ export class MedTrackerDB extends Dexie {
     });
     this.version(2).stores({
       auditEvents: '++id, serviceId, userId, eventType, entityType, timestamp, [entityType+entityId]',
+    });
+    this.version(3).stores({
+      incidents: '++id, serviceId, status, createdBy',
+      incidentItems: '++id, incidentId, itemId',
     });
   }
 }

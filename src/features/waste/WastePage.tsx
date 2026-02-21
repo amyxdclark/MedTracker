@@ -221,6 +221,7 @@ export default function WastePage() {
           </div>
 
           <div className="mt-4 flex gap-3">
+            <Button variant="secondary" onClick={() => navigate(-1)}>Cancel</Button>
             <Button onClick={() => { setIsCorrection(false); setStep(1); }}>Log Waste</Button>
             <Button variant="secondary" icon={<Undo2 size={16} />} onClick={() => { setIsCorrection(true); setStep(1); }}>
               Correction

@@ -14,6 +14,7 @@ export type AuditEventType =
   | 'CHECK_SESSION_STARTED' | 'CHECK_SEAL_VERIFIED' | 'CHECK_ITEM_VERIFIED' | 'CHECK_SESSION_COMPLETED'
   | 'WASTE_WITNESSED' | 'CORRECTION_MADE'
   | 'DISCREPANCY_OPENED' | 'DISCREPANCY_RESOLVED'
+  | 'INCIDENT_CREATED' | 'INCIDENT_ITEM_ADDED' | 'INCIDENT_CLOSED'
   | 'DATA_EXPORTED' | 'DATA_IMPORTED' | 'DATA_RESET' | 'DATA_SEEDED';
 
 export interface Company {
@@ -226,4 +227,28 @@ export interface Settings {
   serviceId: number;
   key: string;
   value: string;
+}
+
+export type IncidentStatus = 'Open' | 'Closed';
+
+export interface Incident {
+  id?: number;
+  serviceId: number;
+  title: string;
+  description: string;
+  incidentDate: string;
+  status: IncidentStatus;
+  createdBy: number;
+  createdAt: string;
+  closedAt?: string;
+}
+
+export interface IncidentItem {
+  id?: number;
+  incidentId: number;
+  itemId: number;
+  quantityUsed: number;
+  notes: string;
+  addedBy: number;
+  addedAt: string;
 }

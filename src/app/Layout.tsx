@@ -7,7 +7,7 @@ import type { Service } from '@/db';
 import {
   Home, QrCode, Search, Package, MapPin, ClipboardCheck,
   ShoppingCart, ArrowRightLeft, BarChart3, Settings as SettingsIcon,
-  Users, Shield, Menu, X, Bell, ChevronDown, LogOut,
+  Users, Shield, Menu, X, Bell, ChevronDown, LogOut, AlertCircle,
 } from 'lucide-react';
 
 const navItems = [
@@ -19,6 +19,7 @@ const navItems = [
   { to: '/checks', label: 'Checks', icon: ClipboardCheck },
   { to: '/orders', label: 'Orders', icon: ShoppingCart },
   { to: '/transfers/new', label: 'Transfers', icon: ArrowRightLeft },
+  { to: '/incidents', label: 'Incidents', icon: AlertCircle },
   { to: '/reports', label: 'Reports', icon: BarChart3 },
   { to: '/settings', label: 'Settings', icon: SettingsIcon },
 ];

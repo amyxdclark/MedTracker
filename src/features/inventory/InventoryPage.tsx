@@ -134,7 +134,7 @@ export default function InventoryPage() {
   const serviceId = currentService?.id ?? 0;
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<ItemStatus | ''>('');
-  const [groupByLocation, setGroupByLocation] = useState(false);
+  const [groupByLocation, setGroupByLocation] = useState(true);
 
   const items = useLiveQuery(
     () => db.inventoryItems.where('serviceId').equals(serviceId).filter(i => i.isActive).toArray(),
