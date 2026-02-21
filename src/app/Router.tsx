@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { RequireAuth } from '@/auth';
 import { Layout } from './Layout';
+import { ErrorPage } from './ErrorPage';
 
 // Placeholder for pages not yet built
 function PlaceholderPage({ title }: { title: string }) {
@@ -58,16 +59,20 @@ const router = createBrowserRouter(
     {
       path: '/login',
       element: <SuspenseWrapper><LoginPage /></SuspenseWrapper>,
+      errorElement: <ErrorPage />,
     },
     {
       path: '/select-service',
       element: <SuspenseWrapper><SelectServicePage /></SuspenseWrapper>,
+      errorElement: <ErrorPage />,
     },
     {
       element: <RequireAuth />,
+      errorElement: <ErrorPage />,
       children: [
         {
           element: <Layout />,
+          errorElement: <ErrorPage />,
           children: [
             { path: '/home', element: <SuspenseWrapper><HomePage /></SuspenseWrapper> },
             { path: '/scan', element: <SuspenseWrapper><ScanPage /></SuspenseWrapper> },
@@ -96,7 +101,7 @@ const router = createBrowserRouter(
         },
       ],
     },
-    { path: '*', element: <Navigate to="/login" replace /> },
+    { path: '*', element: <Navigate to="/login" replace />, errorElement: <ErrorPage /> },
   ],
   { basename: '/MedTracker/' },
 );
