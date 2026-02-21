@@ -321,12 +321,15 @@ export default function AdministerPage() {
         </div>
       </Card>
 
-      <Button
-        onClick={() => setStep(needsWitness ? 2 : 3)}
-        disabled={!patientId.trim() || !doseGiven || doseGiven <= 0}
-      >
-        {needsWitness ? 'Continue to Witness' : 'Continue to Review'}
-      </Button>
+          <div className="flex gap-3">
+            <Button variant="secondary" onClick={() => setStep(0)}>Back</Button>
+            <Button
+              onClick={() => setStep(needsWitness ? 2 : 3)}
+              disabled={!patientId.trim() || !doseGiven || doseGiven <= 0}
+            >
+              {needsWitness ? 'Continue to Witness' : 'Continue to Review'}
+            </Button>
+          </div>
     </div>
   );
 
@@ -375,6 +378,7 @@ export default function AdministerPage() {
       </div>
 
       <div className="flex gap-3">
+        <Button variant="secondary" onClick={() => setStep(1)}>Back</Button>
         {!witnessVerified && (
           <Button onClick={handleVerifyWitness}>Verify Witness</Button>
         )}
@@ -423,9 +427,12 @@ export default function AdministerPage() {
           )}
         </div>
       </Card>
-      <Button onClick={handleComplete} disabled={processing} variant="success">
-        {processing ? 'Processing…' : 'Confirm Administration'}
-      </Button>
+      <div className="flex gap-3">
+        <Button variant="secondary" onClick={() => setStep(needsWitness ? 2 : 1)}>Back</Button>
+        <Button onClick={handleComplete} disabled={processing} variant="success">
+          {processing ? 'Processing…' : 'Confirm Administration'}
+        </Button>
+      </div>
     </div>
   );
 

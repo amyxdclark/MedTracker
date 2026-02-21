@@ -300,12 +300,15 @@ export default function WastePage() {
         </Card>
       )}
 
-      <Button
-        onClick={() => setStep(2)}
-        disabled={isCorrection ? !correctionNotes.trim() : !amountWasted || amountWasted <= 0}
-      >
-        Continue to Witness
-      </Button>
+      <div className="flex gap-3">
+        <Button variant="secondary" onClick={() => setStep(0)}>Back</Button>
+        <Button
+          onClick={() => setStep(2)}
+          disabled={isCorrection ? !correctionNotes.trim() : !amountWasted || amountWasted <= 0}
+        >
+          Continue to Witness
+        </Button>
+      </div>
     </div>
   );
 
@@ -356,6 +359,7 @@ export default function WastePage() {
       </div>
 
       <div className="flex gap-3">
+        <Button variant="secondary" onClick={() => setStep(1)}>Back</Button>
         {!witnessVerified && (
           <Button onClick={handleVerifyWitness}>Verify Witness</Button>
         )}
@@ -405,9 +409,12 @@ export default function WastePage() {
           </div>
         </div>
       </Card>
-      <Button onClick={handleComplete} disabled={processing} variant={isCorrection ? 'danger' : 'success'}>
-        {processing ? 'Processing…' : isCorrection ? 'Confirm Correction' : 'Confirm Waste'}
-      </Button>
+      <div className="flex gap-3">
+        <Button variant="secondary" onClick={() => setStep(2)}>Back</Button>
+        <Button onClick={handleComplete} disabled={processing} variant={isCorrection ? 'danger' : 'success'}>
+          {processing ? 'Processing…' : isCorrection ? 'Confirm Correction' : 'Confirm Waste'}
+        </Button>
+      </div>
     </div>
   );
 
