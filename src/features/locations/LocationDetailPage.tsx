@@ -210,7 +210,7 @@ export default function LocationDetailPage() {
                   <div>
                     <span className="font-medium">{formatDateTime(session.startedAt)}</span>
                     {session.sealVerified && (
-                      <Badge variant="info" >Seal Verified</Badge>
+                      <span className="ml-2"><Badge variant="info">Seal Verified</Badge></span>
                     )}
                   </div>
                   <span className="text-slate-400">

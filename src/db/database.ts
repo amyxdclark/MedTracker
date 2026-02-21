@@ -55,6 +55,9 @@ export class MedTrackerDB extends Dexie {
       auditEvents: '++id, serviceId, userId, eventType, entityType, timestamp',
       settings: '++id, serviceId, key',
     });
+    this.version(2).stores({
+      auditEvents: '++id, serviceId, userId, eventType, entityType, timestamp, [entityType+entityId]',
+    });
   }
 }
 

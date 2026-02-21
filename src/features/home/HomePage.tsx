@@ -44,18 +44,17 @@ export default function HomePage() {
     for (const loc of locations) {
       if (loc.checkFrequencyHours > 0) {
         const itemsAtLoc = items.filter(i => i.locationId === loc.id);
-        const lastChecked = itemsAtLoc.length > 0
-          ? itemsAtLoc.reduce((latest, i) => i.lastCheckedAt > latest ? i.lastCheckedAt : latest, '')
-          : '';
-        if (lastChecked && getComplianceStatus(lastChecked, loc.checkFrequencyHours) === 'Overdue') {
-          overdueChecks++;
-        }
+        const isOverdue = itemsAtLoc.some(
+          i => getComplianceStatus(i.lastCheckedAt, loc.checkFrequencyHours) === 'Overdue'
+        );
+        if (isOverdue) overdueChecks++;
       }
     }
 
+    const inStockLotIds = new Set(items.map(i => i.lotId).filter((id): id is number => id != null));
     let expiringSoon = 0;
     for (const lot of lots) {
-      if (getExpirationStatus(lot.expirationDate) !== 'OK') {
+      if (inStockLotIds.has(lot.id!) && getExpirationStatus(lot.expirationDate) !== 'OK') {
         expiringSoon++;
       }
     }
